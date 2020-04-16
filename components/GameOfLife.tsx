@@ -63,6 +63,7 @@ export const getCell = (i: number, j: number) => {
 }
 
 export const initBoard = (cellsWidth: number, cellsHeight: number) => {
+  board.cells = []
   board.cellsWidth = cellsWidth || 22
   board.cellsHeight = cellsHeight || 22
   for (let j = 0; j < board.cellsHeight; j++) {
