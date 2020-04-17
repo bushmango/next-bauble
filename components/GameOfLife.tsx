@@ -222,7 +222,7 @@ export const GameOfLife = (props: { full: boolean }) => {
           style={{ cursor: 'pointer' }}
           width={sizeW}
           height={sizeH}
-          onClick={(ev) => {
+          onMouseMove={(ev) => {
             // see: https://stackoverflow.com/questions/3234256/find-mouse-position-relative-to-element
             // e = Mouse click event.
             let rect = (ev.target as any).getBoundingClientRect()
