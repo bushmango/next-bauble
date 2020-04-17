@@ -75,6 +75,7 @@ let board = {
   cellsWidth: 0,
   cellsHeight: 0,
   cells: [] as ICell[],
+  frameNum: 0,
 }
 
 export const getCell = (i: number, j: number) => {
@@ -91,6 +92,7 @@ export const initBoard = (cellsWidth: number, cellsHeight: number) => {
   board.cells = []
   board.cellsWidth = cellsWidth || 22
   board.cellsHeight = cellsHeight || 22
+  board.frameNum = 0
   for (let j = 0; j < board.cellsHeight; j++) {
     for (let i = 0; i < board.cellsWidth; i++) {
       board.cells.push({
@@ -119,11 +121,23 @@ export const initBoard = (cellsWidth: number, cellsHeight: number) => {
 let step = 1 / 60
 
 export const onePass = (classic: boolean = false) => {
+  board.frameNum++
+
+  let classicFrameCount = 16
+  let classicStep = (1 / classicFrameCount) * 1.5
+  let isFullStep = board.frameNum % classicFrameCount === 0
+
   for (let j = 0; j < board.cellsHeight; j++) {
     for (let i = 0; i < board.cellsWidth; i++) {
       let c = getCell(i, j)
       if (c) {
-        c.prevLife = c.life
+        if (classic) {
+          if (isFullStep) {
+            c.prevLife = c.life
+          }
+        } else {
+          c.prevLife = c.life
+        }
       }
     }
   }
@@ -132,26 +146,28 @@ export const onePass = (classic: boolean = false) => {
     for (let i = 0; i < board.cellsWidth; i++) {
       let c = getCell(i, j)
       if (c) {
-        let n = countNeighbors(i, j)
+        let n = countNeighbors(i, j, 0.5)
         c.n = n
         if (classic) {
           if (c.life > 0) {
             if (n < 2) {
-              c.life = 0
+              c.life -= classicStep
             } else if (n > 3) {
-              c.life = 0
+              c.life -= classicStep
             } else {
-              c.life = 1
+              c.life += classicStep
             }
           } else {
             if (n === 3) {
-              c.life = 1
+              c.life += classicStep
             } else {
-              c.life = 0
+              c.life -= classicStep
             }
           }
         } else {
           // Stevie flow algo
+          let n = countNeighbors(i, j, 0.5)
+          c.n = n
           if (c.life > 0.25) {
             if (n < 2) {
               c.life -= step
@@ -180,38 +196,38 @@ export const onePass = (classic: boolean = false) => {
   }
 }
 
-export const isAlive = (i: number, j: number) => {
+export const isAlive = (i: number, j: number, limit: number) => {
   let c = getCell(i, j)
-  if (c && c.prevLife > 0.5) {
+  if (c && c.prevLife > limit) {
     return true
   }
   return false
 }
-export const countNeighbors = (i: number, j: number) => {
+export const countNeighbors = (i: number, j: number, limit: number) => {
   let neighbors = 0
-  if (isAlive(i + 1, j - 1)) {
+  if (isAlive(i + 1, j - 1, limit)) {
     neighbors++
   }
-  if (isAlive(i + 1, j)) {
+  if (isAlive(i + 1, j, limit)) {
     neighbors++
   }
-  if (isAlive(i + 1, j + 1)) {
+  if (isAlive(i + 1, j + 1, limit)) {
     neighbors++
   }
-  if (isAlive(i - 1, j - 1)) {
+  if (isAlive(i - 1, j - 1, limit)) {
     neighbors++
   }
-  if (isAlive(i - 1, j)) {
+  if (isAlive(i - 1, j, limit)) {
     neighbors++
   }
-  if (isAlive(i - 1, j + 1)) {
+  if (isAlive(i - 1, j + 1, limit)) {
     neighbors++
   }
 
-  if (isAlive(i, j - 1)) {
+  if (isAlive(i, j - 1, limit)) {
     neighbors++
   }
-  if (isAlive(i, j + 1)) {
+  if (isAlive(i, j + 1, limit)) {
     neighbors++
   }
 
