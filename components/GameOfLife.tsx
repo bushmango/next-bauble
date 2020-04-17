@@ -123,7 +123,7 @@ let step = 1 / 60
 export const onePass = (classic: boolean = false) => {
   board.frameNum++
 
-  let classicFrameCount = 16
+  let classicFrameCount = 32
   let classicStep = (1 / classicFrameCount) * 1.5
   let isFullStep = board.frameNum % classicFrameCount === 0
 
