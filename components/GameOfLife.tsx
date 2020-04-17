@@ -176,6 +176,29 @@ export const countNeighbors = (i: number, j: number) => {
 }
 
 const _global = global as any
+
+let isMouseDown = false
+
+const onMouseMove = (ev: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+  if (!isMouseDown) {
+    return
+  }
+
+  // see: https://stackoverflow.com/questions/3234256/find-mouse-position-relative-to-element
+  // e = Mouse click event.
+  let rect = (ev.target as any).getBoundingClientRect()
+  let x = ev.clientX - rect.left //x position within the element.
+  let y = ev.clientY - rect.top //y position within the element.
+
+  let s = 20
+  let i = Math.floor((x - s / 2) / s)
+  let j = Math.floor((y - s / 2) / s)
+  let c = getCell(i, j)
+  if (c) {
+    c.life = 1
+  }
+}
+
 export const GameOfLife = (props: { full: boolean }) => {
   React.useEffect(() => {
     if (props.full) {
@@ -222,21 +245,14 @@ export const GameOfLife = (props: { full: boolean }) => {
           style={{ cursor: 'pointer' }}
           width={sizeW}
           height={sizeH}
-          onMouseMove={(ev) => {
-            // see: https://stackoverflow.com/questions/3234256/find-mouse-position-relative-to-element
-            // e = Mouse click event.
-            let rect = (ev.target as any).getBoundingClientRect()
-            let x = ev.clientX - rect.left //x position within the element.
-            let y = ev.clientY - rect.top //y position within the element.
-
-            let s = 20
-            let i = Math.floor((x - s / 2) / s)
-            let j = Math.floor((y - s / 2) / s)
-            let c = getCell(i, j)
-            if (c) {
-              c.life = 1
-            }
+          onMouseDown={(ev) => {
+            isMouseDown = true
+            onMouseMove(ev)
           }}
+          onMouseUp={() => {
+            isMouseDown = false
+          }}
+          onMouseMove={onMouseMove}
         >
           {l.map(board.cells, (c: ICell, cIdx: number) => {
             return (
