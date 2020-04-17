@@ -23,6 +23,10 @@ export const Layout = (props: { children: React.ReactNode; title: string }) => {
         |{' '}
         <Link href='/game-of-life'>
           <a>Game of Life</a>
+        </Link>{' '}
+        |{' '}
+        <Link href='/game-of-life-classic'>
+          <a>Game of Life Classic</a>
         </Link>
       </div>
       {props.children}

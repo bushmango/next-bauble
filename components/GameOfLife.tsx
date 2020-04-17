@@ -3,7 +3,7 @@ import * as React from 'react'
 import useAnimationForever from '../lib/useAnimationForever'
 import { Abstract, Published } from './Abstract'
 import { Layout } from './Layout'
-import { SeeLink } from './SeeLink'
+import { SeeLink, SeeInternalLink } from './SeeLink'
 import { ZenLink } from './ZenLink'
 import { ClientOnly } from './ClientOnly'
 
@@ -23,9 +23,34 @@ export const GameOfLifeFull = () => {
       <SeeLink href='https://en.wikipedia.org/wiki/John_Horton_Conway'>
         John Horton Conway
       </SeeLink>
+      <SeeInternalLink href='/game-of-life-classic' />
       <ZenLink href='/game-of-life-zen' />
       <ClientOnly>
-        <GameOfLife full={false} />
+        <GameOfLife full={false} classic={false} />
+      </ClientOnly>
+    </Layout>
+  )
+}
+
+export const GameOfLifeFullClassic = () => {
+  return (
+    <Layout title='Game of Life Classic'>
+      <Abstract>
+        in memoriam John Horton Conway 1937-2020. His famous Game of Life has
+        fascinated mathematicians and computer scientists for decades. This is a
+        classic variant following his original rules closely
+        <Published>4/16/2020</Published>
+      </Abstract>
+      <SeeLink href='https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life'>
+        Conway's Game of Life
+      </SeeLink>
+      <SeeLink href='https://en.wikipedia.org/wiki/John_Horton_Conway'>
+        John Horton Conway
+      </SeeLink>
+      <SeeInternalLink href='/game-of-life' />
+      <ZenLink href='/game-of-life-classic-zen' />
+      <ClientOnly>
+        <GameOfLife full={false} classic={true} />
       </ClientOnly>
     </Layout>
   )
@@ -93,7 +118,7 @@ export const initBoard = (cellsWidth: number, cellsHeight: number) => {
 
 let step = 1 / 60
 
-export const onePass = () => {
+export const onePass = (classic: boolean = false) => {
   for (let j = 0; j < board.cellsHeight; j++) {
     for (let i = 0; i < board.cellsWidth; i++) {
       let c = getCell(i, j)
@@ -109,19 +134,38 @@ export const onePass = () => {
       if (c) {
         let n = countNeighbors(i, j)
         c.n = n
-        if (c.life > 0.25) {
-          if (n < 2) {
-            c.life -= step
-          } else if (n > 3) {
-            c.life -= step
+        if (classic) {
+          if (c.life > 0) {
+            if (n < 2) {
+              c.life = 0
+            } else if (n > 3) {
+              c.life = 0
+            } else {
+              c.life = 1
+            }
           } else {
-            c.life += step
+            if (n === 3) {
+              c.life = 1
+            } else {
+              c.life = 0
+            }
           }
         } else {
-          if (n === 3) {
-            c.life += step * 1
+          // Stevie flow algo
+          if (c.life > 0.25) {
+            if (n < 2) {
+              c.life -= step
+            } else if (n > 3) {
+              c.life -= step
+            } else {
+              c.life += step
+            }
           } else {
-            c.life -= step
+            if (n === 3) {
+              c.life += step * 1
+            } else {
+              c.life -= step
+            }
           }
         }
         if (c.life < 0) {
@@ -130,7 +174,6 @@ export const onePass = () => {
         if (c.life > 1) {
           c.life = 1
         }
-
         c.color = c.life > 0 ? 'green' : 'gray'
       }
     }
@@ -190,16 +233,18 @@ const onMouseMove = (ev: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
   let x = ev.clientX - rect.left //x position within the element.
   let y = ev.clientY - rect.top //y position within the element.
 
-  let s = 20
-  let i = Math.floor((x - s / 2) / s)
-  let j = Math.floor((y - s / 2) / s)
-  let c = getCell(i, j)
-  if (c) {
-    c.life = 1
+  if (x && y) {
+    let s = 20
+    let i = Math.floor((x - s / 2) / s)
+    let j = Math.floor((y - s / 2) / s)
+    let c = getCell(i, j)
+    if (c) {
+      c.life = 1
+    }
   }
 }
 
-export const GameOfLife = (props: { full: boolean }) => {
+export const GameOfLife = (props: { full: boolean; classic?: boolean }) => {
   React.useEffect(() => {
     if (props.full) {
       const width =
@@ -229,7 +274,7 @@ export const GameOfLife = (props: { full: boolean }) => {
   let sx = sizeW / 2 - (board.cellsWidth / 2) * r * 2 + r
   let sy = sizeH / 2 - (board.cellsHeight / 2) * r * 2 + r
 
-  onePass()
+  onePass(props.classic)
 
   if (typeof _global.window === 'undefined') {
     return <div>Loading...</div>
