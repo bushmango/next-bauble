@@ -10,6 +10,10 @@ export const Layout = (props: { children: React.ReactNode; title: string }) => {
         <title>{props.title}</title>
         <meta charSet='utf-8' />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+        <link
+          href='https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap'
+          rel='stylesheet'
+        ></link>
       </Head>
 
       <div className={css.header}>
