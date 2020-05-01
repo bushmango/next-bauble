@@ -424,14 +424,17 @@ const circleLinePass = (
 
   let lines: Array<[number, number]> = []
 
-  const drawLine = (pair: [number, number]) => {
+  const drawLine = (pair: [number, number], lerpV: number) => {
     let p1 = points[pair[0]]
     let p2 = points[pair[1]]
     ctx.moveTo(p1[0], p1[1])
-    ctx.lineTo(p2[0], p2[1])
+    ctx.lineTo(
+      p1[0] * (1 - lerpV) + p2[0] * lerpV,
+      p1[1] * (1 - lerpV) + p2[1] * lerpV,
+    )
   }
 
-  for (let iCircle = 0; iCircle < 6 && iCircle < idx; iCircle++) {
+  for (let iCircle = 0; iCircle < 6 && iCircle <= idx; iCircle++) {
     if (iCircle === 0) {
       lines = [
         [6, 1],
@@ -532,9 +535,20 @@ const circleLinePass = (
     ny = ny - cy
     ctx.translate(nx, ny)
     for (let i = 0; i < lines.length; i++) {
+      let eTest = i / lines.length
+      if (eTest > e && idx === iCircle) {
+        break
+      }
+
+      let lerpV = 1
+      let eTest2 = (i + 1) / lines.length
+      if (eTest2 > e && idx === iCircle) {
+        lerpV = (e - eTest) * lines.length
+      }
+
       let l = lines[i]
       ctx.beginPath()
-      drawLine(l)
+      drawLine(l, lerpV)
       ctx.stroke()
     }
     ctx.translate(-nx, -ny)
@@ -648,49 +662,6 @@ const secondArcPass = (
   }
   if (idx < 6) {
     arcDrawPartInner(ctx, e, idxs[idx], circleColors6[colorIdxs[idx]])
-  }
-
-  arcDrawPart(ctx, 1, 0)
-  arcDrawPart(ctx, 1, 1)
-  arcDrawPart(ctx, 1, 2)
-  arcDrawPart(ctx, 1, 3)
-  arcDrawPart(ctx, 1, 4)
-  arcDrawPart(ctx, 1, 5)
-
-  // This looks really cool
-  // for (let i = 0; i < idx; i++) {
-  //   arcDrawPart(ctx, e, i)
-  // }
-  for (let i = 0; i < idx; i++) {
-    arcDrawPart(ctx, 1, i)
-  }
-  if (idx < 6) {
-    arcDrawPart(ctx, e, idx)
-  }
-}
-
-const splitOutArcPass = (
-  ctx: CanvasRenderingContext2D,
-  e: number,
-  idx: number,
-) => {
-  // Last stage
-  //mainCircleDraw(ctx)
-  // arcDrawPartInner(ctx, 1, 2)
-  // arcDrawPartInner(ctx, 1, 3)
-  // arcDrawPartInner(ctx, 1, 4)
-  // arcDrawPartInner2(ctx, 1, 4)
-  // arcDrawPartInner(ctx, 1, 5)
-  // arcDrawPartInner2(ctx, 1, 5)
-
-  let idxs = [6, 1, 2, 3, 4, 5]
-  let colorIdxs = [5, 0, 1, 2, 3, 4]
-
-  for (let i = 0; i < idx; i++) {
-    //arcDrawPartInner(ctx, 1, idxs[i], circleColors6[colorIdxs[i]])
-  }
-  if (idx < 6) {
-    //arcDrawPartInner(ctx, e, idxs[idx], circleColors6[colorIdxs[idx]])
   }
 
   arcDrawPart(ctx, 1, 0)
