@@ -25,8 +25,8 @@ export const GeometryOfCirclesFull = () => {
   )
 }
 
-let w = 400
-let h = 400
+let w = 800
+let h = 800
 let cx = w / 2
 let cy = h / 2
 
@@ -67,12 +67,14 @@ export const render = (canvas: HTMLCanvasElement, elapsedMs: number) => {
 
   let elapsedS = elapsedMs / 1000
 
+  //ctx.fillStyle = 'rgba(0, 0, 200, 0.5)'
+  ctx.fillStyle = 'black'
   ctx.clearRect(0, 0, w, h)
+  ctx.fillRect(0, 0, w, h)
 
   // ctx.fillStyle = 'rgb(200, 0, 0)'
   // ctx.fillRect(10, 10, 50, 50)
 
-  ctx.fillStyle = 'rgba(0, 0, 200, 0.5)'
   // ctx.fillRect(30, 30, 50, 50)
 
   let totalS = 0
@@ -110,17 +112,21 @@ export const render = (canvas: HTMLCanvasElement, elapsedMs: number) => {
     elapsedS -= totalS
   }
 
-  ctx.lineWidth = 1.5
+  ctx.lineWidth = 3 //1.5
 
   if (focusData) {
+    ctx.save()
     focusData.renderer(ctx, elapsedS, elapsedS / focusData.duration)
+    ctx.restore()
   } else {
     for (let i = startIndex; i < data.length; i++) {
       let d = data[i]
       if (elapsedS > d.duration) {
         elapsedS -= d.duration
       } else {
+        ctx.save()
         d.renderer(ctx, elapsedS, elapsedS / d.duration)
+        ctx.restore()
         break
       }
     }
@@ -174,6 +180,20 @@ let data: IData[] = [
       ctx.moveTo(cx, cy - circleR)
 
       let [nx, ny] = rotate(cx, cy - circleR, 0, circleR, (-e * turn) / 6)
+
+      ctx.lineTo(nx, ny)
+      ctx.stroke()
+    },
+  },
+  {
+    duration: 1,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      mainCircleDraw(ctx)
+
+      ctx.beginPath()
+      ctx.moveTo(cx, cy - circleR)
+
+      let [nx, ny] = rotate(cx, cy - circleR, 0, circleR, (-1 * turn) / 6)
 
       ctx.lineTo(nx, ny)
       ctx.stroke()
@@ -258,50 +278,338 @@ let data: IData[] = [
   {
     duration: (2.5 / 4) * 10,
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
-      ctx.save()
       ctx.translate(cx, cy)
       ctx.rotate(e * turn * 2.5)
       ctx.translate(-cx, -cy)
       secondArcPass(ctx, 1, 6)
-      ctx.restore()
     },
   },
   {
     duration: (1.5 / 4) * 10,
+
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
-      ctx.save()
       ctx.translate(cx, cy)
       ctx.rotate(e * turn * 1.5 + turn * 2.5)
-      ctx.scale(0.5 + (1 - e) * 0.5, 0.5 + (1 - e) * 0.5)
       ctx.translate(-cx, -cy)
 
+      scaleToHalf(ctx, e)
+
       secondArcPass(ctx, 1, 6)
-      ctx.restore()
     },
   },
   {
     duration: 5,
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
-      ctx.save()
-      ctx.translate(cx, cy)
-      ctx.scale(0.5, 0.5)
-      ctx.translate(-cx, -cy)
+      scaleToHalf(ctx, 1)
       secondArcPass(ctx, 1, 6)
-      ctx.restore()
+    },
+  },
+  {
+    duration: 2,
+
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleSplitPass(ctx, e, 0)
     },
   },
   {
     duration: 2,
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
-      ctx.save()
-      ctx.translate(cx, cy)
-      ctx.scale(0.5, 0.5)
-      ctx.translate(-cx, -cy)
+      circleSplitPass(ctx, e, 1)
+    },
+  },
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleSplitPass(ctx, e, 2)
+    },
+  },
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleSplitPass(ctx, e, 3)
+    },
+  },
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleSplitPass(ctx, e, 4)
+    },
+  },
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleSplitPass(ctx, e, 5)
+    },
+  },
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleSplitPass(ctx, e, 6)
+    },
+  },
+  {
+    duration: 2,
+    start: true,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleLinePass(ctx, e, 0)
+    },
+  },
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleLinePass(ctx, e, 1)
+    },
+  },
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleLinePass(ctx, e, 2)
+    },
+  },
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleLinePass(ctx, e, 3)
+    },
+  },
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleLinePass(ctx, e, 4)
+    },
+  },
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleLinePass(ctx, e, 5)
+    },
+  },
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleLinePass(ctx, e, 6)
+    },
+  },
+
+  {
+    duration: 2,
+    end: true,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      scaleToHalf(ctx, 1)
       mainCircleDraw(ctx, 1 - e)
-      ctx.restore()
     },
   },
 ]
+
+const circleLinePass = (
+  ctx: CanvasRenderingContext2D,
+  e: number,
+  idx: number,
+) => {
+  scaleToHalf(ctx, 1)
+
+  for (let i = 0; i < 6; i++) {
+    ctx.fillStyle = circleColors6[i]
+    ctx.beginPath()
+    let ie = 1
+    let [nx, ny] = rotate2(cx, cy, cx, cy - circleR * ie * 2, (i * turn) / 6)
+    ctx.arc(nx, ny, circleR, 0, turn)
+    ctx.fill()
+    ctx.stroke()
+  }
+  mainCircleDraw(ctx)
+  secondArcPass(ctx, 1, 6)
+
+  let points = [[cx, cy], ...circlePoints6]
+
+  let lines: Array<[number, number]> = []
+
+  const drawLine = (pair: [number, number], lerpV: number) => {
+    let p1 = points[pair[0]]
+    let p2 = points[pair[1]]
+    ctx.moveTo(p1[0], p1[1])
+    ctx.lineTo(
+      p1[0] * (1 - lerpV) + p2[0] * lerpV,
+      p1[1] * (1 - lerpV) + p2[1] * lerpV,
+    )
+  }
+
+  for (let iCircle = 0; iCircle < 6 && iCircle <= idx; iCircle++) {
+    if (iCircle === 0) {
+      lines = [
+        [6, 1],
+        [1, 2],
+        [2, 3],
+        [3, 4],
+        [4, 5],
+        [5, 6],
+      ]
+    }
+
+    if (iCircle === 1) {
+      lines = [
+        [0, 1],
+        [0, 2],
+        [0, 3],
+        [0, 4],
+        [0, 5],
+        [0, 6],
+      ]
+    }
+
+    if (iCircle === 2) {
+      lines = [
+        [6, 1],
+        [1, 2],
+        [2, 3],
+        [3, 4],
+        [4, 5],
+        [5, 6],
+        [0, 1],
+        [0, 2],
+        [0, 3],
+        [0, 4],
+        [0, 5],
+        [0, 6],
+      ]
+    }
+
+    if (iCircle === 3) {
+      lines = [
+        [6, 2],
+        [5, 3],
+        [6, 5],
+        [2, 3],
+        [3, 4],
+        [4, 5],
+        [6, 1],
+        [1, 2],
+      ]
+    }
+
+    if (iCircle === 4) {
+      lines = [
+        [1, 4],
+        [1, 5],
+        [1, 3],
+        [5, 3],
+        [2, 0],
+        [0, 3],
+        [5, 0],
+        [0, 6],
+      ]
+    }
+
+    if (iCircle === 5) {
+      lines = [
+        [6, 2],
+        [5, 3],
+        [6, 5],
+        [2, 3],
+
+        [1, 0],
+        [4, 0],
+
+        [2, 0],
+        [3, 0],
+        [5, 0],
+        [6, 0],
+
+        [6, 1],
+        [1, 2],
+        [2, 3],
+        [3, 4],
+        [4, 5],
+        [5, 6],
+      ]
+    }
+
+    let [nx, ny] = rotate2(
+      cx,
+      cy,
+      cx,
+      cy - circleR * 2,
+      (2 * iCircle * turn) / 12,
+    )
+    nx = nx - cx
+    ny = ny - cy
+    ctx.translate(nx, ny)
+    for (let i = 0; i < lines.length; i++) {
+      let eTest = i / lines.length
+      if (eTest > e && idx === iCircle) {
+        break
+      }
+
+      let lerpV = 1
+      let eTest2 = (i + 1) / lines.length
+      if (eTest2 > e && idx === iCircle) {
+        lerpV = (e - eTest) * lines.length
+      }
+
+      let l = lines[i]
+      ctx.beginPath()
+      drawLine(l, lerpV)
+      ctx.stroke()
+    }
+    ctx.translate(-nx, -ny)
+  }
+}
+
+const circleSplitPass = (
+  ctx: CanvasRenderingContext2D,
+  e: number,
+  idx: number,
+) => {
+  scaleToHalf(ctx, 1)
+
+  for (let i = 0; i <= idx && i < 6; i++) {
+    ctx.fillStyle = circleColors6[i]
+    ctx.beginPath()
+
+    let ie = idx === i ? e : 1
+    let [nx, ny] = rotate2(cx, cy, cx, cy - circleR * ie * 2, (i * turn) / 6)
+
+    ctx.arc(nx, ny, circleR, 0, turn)
+    ctx.fill()
+    ctx.stroke()
+  }
+  mainCircleDraw(ctx)
+  secondArcPass(ctx, 1, 6)
+
+  if (idx < 6) {
+    ctx.fillStyle = 'black'
+    // ctx.strokeStyle = 'red'
+    ctx.lineWidth = 4
+    ctx.beginPath()
+    // let p0 = circlePoints6[0]
+    let p1 = circlePoints6[mod(5 + idx, 6)]
+    let p2 = circlePoints6[mod(1 + idx, 6)]
+    // ctx.moveTo(p0[0], p0[1])
+    let arcStart = (-1 / 12) * turn + ((idx * 2) / 12) * turn
+    ctx.arc(p1[0], p1[1], circleR, arcStart, arcStart + (2 / 12) * turn)
+    arcStart = (5 / 12) * turn + ((idx * 2) / 12) * turn
+    ctx.arc(p2[0], p2[1], circleR, arcStart, arcStart + (2 / 12) * turn)
+    ctx.fill()
+    ctx.clip()
+
+    // ctx.stroke()
+
+    ctx.fillStyle = circleColors6[idx]
+    ctx.beginPath()
+
+    let [nx, ny] = rotate2(cx, cy, cx, cy - circleR * e * 2, (idx * turn) / 6)
+
+    ctx.arc(nx, ny, circleR, 0, turn)
+    ctx.fill()
+    ctx.stroke()
+  }
+}
+
+const scaleToHalf = (ctx: CanvasRenderingContext2D, e: number = 1) => {
+  ctx.translate(cx, cy)
+  ctx.scale(0.5 + (1 - e) * 0.5, 0.5 + (1 - e) * 0.5)
+  ctx.translate(-cx, -cy)
+}
 
 const firstArcPass = (
   ctx: CanvasRenderingContext2D,
@@ -383,11 +691,6 @@ function mainCircleDraw(ctx: CanvasRenderingContext2D, e: number = 1) {
     ctx.arc(cx, cy, circleR, -turn / 4, -turn / 4 + e * turn)
     ctx.lineTo(cx, cy)
     ctx.fill()
-
-    ctx.beginPath()
-    ctx.lineTo(cx, cy)
-    ctx.arc(cx, cy, circleR, -turn / 4, -turn / 4 + e * turn)
-    ctx.lineTo(cx, cy)
     ctx.stroke()
     return
   }
@@ -396,10 +699,6 @@ function mainCircleDraw(ctx: CanvasRenderingContext2D, e: number = 1) {
   ctx.arc(cx, cy, circleR, 0, turn)
   // ctx.lineTo(cx, cy)
   ctx.fill()
-
-  ctx.beginPath()
-  ctx.arc(cx, cy, circleR, 0, turn)
-  // ctx.lineTo(cx, cy)
   ctx.stroke()
 }
 

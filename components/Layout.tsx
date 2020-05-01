@@ -27,12 +27,12 @@ export const Layout = (props: { children: React.ReactNode; title: string }) => {
 
       <div className={css.header}>
         {l.map(links, (c, cIdx) => (
-          <>
+          <React.Fragment key={cIdx}>
             {cIdx !== 0 && <> | </>}
             <Link href={c[0]}>
               <a>{c[1]}</a>
             </Link>{' '}
-          </>
+          </React.Fragment>
         ))}
       </div>
       {props.children}
