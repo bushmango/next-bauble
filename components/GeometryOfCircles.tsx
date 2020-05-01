@@ -53,14 +53,6 @@ export const render = (canvas: HTMLCanvasElement, elapsedMs: number) => {
 
   let elapsedS = elapsedMs / 1000
 
-  let totalS = 0
-  for (let i = 0; i < data.length; i++) {
-    totalS += data[i].duration
-  }
-  while (elapsedS >= totalS) {
-    elapsedS -= totalS
-  }
-
   ctx.clearRect(0, 0, w, h)
 
   ctx.fillStyle = 'rgb(200, 0, 0)'
@@ -69,14 +61,37 @@ export const render = (canvas: HTMLCanvasElement, elapsedMs: number) => {
   ctx.fillStyle = 'rgba(0, 0, 200, 0.5)'
   ctx.fillRect(30, 30, 50, 50)
 
+  let totalS = 0
+  for (let i = 0; i < data.length; i++) {
+    totalS += data[i].duration
+  }
+
+  let focusData: IData | null = null
   for (let i = 0; i < data.length; i++) {
     let d = data[i]
-    if (elapsedS > d.duration) {
-      elapsedS -= d.duration
-    } else {
-      console.log('rendering', i)
-      d.renderer(ctx, elapsedS)
+    if (d.focus) {
+      // d.renderer(ctx, elapsedS)
+      totalS = d.duration
+      focusData = d
       break
+    }
+  }
+
+  while (elapsedS >= totalS) {
+    elapsedS -= totalS
+  }
+
+  if (focusData) {
+    focusData.renderer(ctx, elapsedS)
+  } else {
+    for (let i = 0; i < data.length; i++) {
+      let d = data[i]
+      if (elapsedS > d.duration) {
+        elapsedS -= d.duration
+      } else {
+        d.renderer(ctx, elapsedS)
+        break
+      }
     }
   }
 }
@@ -92,7 +107,13 @@ let cy = h / 2
 
 let turn = Math.PI * 2
 
-let data = [
+interface IData {
+  duration: number
+  renderer: (ctx: CanvasRenderingContext2D, es: number) => void
+  focus?: boolean
+}
+
+let data: IData[] = [
   {
     duration: 5,
     renderer: (ctx: CanvasRenderingContext2D, es: number) => {
@@ -105,11 +126,50 @@ let data = [
   },
   {
     duration: 2,
-    renderer: (ctx: CanvasRenderingContext2D, _: number) => {
+    renderer: (ctx: CanvasRenderingContext2D, es: number) => {
+      let e = es / 2
       ctx.beginPath()
       ctx.arc(cx, cy, w / 3, 0, turn)
       ctx.lineTo(cx, cy)
       ctx.fill()
+
+      ctx.beginPath()
+      ctx.moveTo(cx, cy - w / 3)
+
+      let [nx, ny] = rotate(cx, cy - w / 3, 0, w / 3, (-e * turn) / 6)
+
+      ctx.lineTo(nx, ny)
+      ctx.stroke()
+    },
+  },
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number) => {
+      let e = es / 2
+      ctx.beginPath()
+      ctx.arc(cx, cy, w / 3, 0, turn)
+      ctx.lineTo(cx, cy)
+      ctx.fill()
+
+      ctx.beginPath()
+      ctx.moveTo(cx, cy - w / 3)
+
+      let [nx, ny] = rotate(cx, cy - w / 3, 0, w / 3, (e * turn) / 3 - turn / 6)
+
+      ctx.lineTo(nx, ny)
+      ctx.stroke()
+
+      ctx.beginPath()
+      // ctx.moveTo(cx, cy - w / 3)
+      ctx.arc(
+        cx,
+        cy - w / 3,
+        w / 3,
+        (5 / 12) * turn,
+        (5 / 12) * turn + (-e * 4 * turn) / 12,
+        true,
+      )
+      ctx.stroke()
     },
   },
   {
@@ -123,3 +183,13 @@ let data = [
     },
   },
 ]
+
+// see: https://stackoverflow.com/questions/17410809/how-to-calculate-rotation-in-2d-in-javascript
+function rotate(cx: number, cy: number, x: number, y: number, angle: number) {
+  let radians = angle
+  let cos = Math.cos(radians)
+  let sin = Math.sin(radians)
+  let nx = cos * x + sin * y + cx
+  let ny = cos * y - sin * x + cy
+  return [nx, ny]
+}
