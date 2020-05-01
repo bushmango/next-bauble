@@ -1,9 +1,12 @@
 import Link from 'next/link'
 
-export const SeeLink = (props: { href: string; children: React.ReactNode }) => {
+export const SeeLink = (props: {
+  href: string
+  children?: React.ReactNode
+}) => {
   return (
     <div>
-      <a href={props.href}>See: {props.children}</a>
+      <a href={props.href}>See: {props.children || props.href}</a>
     </div>
   )
 }

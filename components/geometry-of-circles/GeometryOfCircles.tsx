@@ -5,13 +5,17 @@ import { Layout } from '../Layout'
 import useAnimationForever from '../../lib/useAnimationForever'
 
 import { rotate, rotate2 } from './geomLib'
+import { SeeLink } from '../SeeLink'
 
 export const GeometryOfCirclesFull = () => {
   return (
     <Layout title='Geometry of Circles'>
       <Abstract>
-        Geometry of Circles example
-        <Published>-</Published>
+        Geometry of Circles based on a 1979 Sesame Street segment with music by
+        Philip Glass.
+        <SeeLink href='https://www.youtube.com/watch?v=19hRQfZdTr4' />
+        <Published>Started 4/29/2020</Published>
+        <Published>5/1/2020 (work in progress)</Published>
       </Abstract>
 
       <ClientOnly>
@@ -110,6 +114,17 @@ export const render = (canvas: HTMLCanvasElement, elapsedMs: number) => {
 // arc 0-1t
 // line from center to left
 
+let circleColors6 = [
+  '#840300',
+  '#C79100',
+  '#E6E11F',
+  '#276413',
+  '#487BD8',
+  '#55396C',
+]
+
+let circleBgColor = '#D8E0DD'
+
 let circlePoints6: Array<[number, number]> = []
 for (let i = 0; i < 6; i++) {
   let px = 0
@@ -128,21 +143,7 @@ let data: IData[] = [
   {
     duration: 5,
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
-      ctx.beginPath()
-      ctx.arc(cx, cy, circleR, -turn / 4, -turn / 4 + e * turn)
-      ctx.lineTo(cx, cy)
-      ctx.fill()
-
-      ctx.beginPath()
-      ctx.lineTo(cx, cy)
-      ctx.arc(cx, cy, circleR, -turn / 4, -turn / 4 + e * turn)
-      ctx.lineTo(cx, cy)
-      ctx.stroke()
-
-      // ctx.beginPath()
-      // ctx.moveTo(cx, cy - circleR)
-      // ctx.lineTo(cx, cy)
-      // ctx.stroke()
+      mainCircleDraw(ctx, e)
     },
   },
   {
@@ -207,9 +208,9 @@ let data: IData[] = [
     duration: 2,
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
       mainCircleDraw(ctx)
+      arcDrawPartInner(ctx, e, 2)
       arcDrawPart(ctx, 1, 0)
       arcDrawPart(ctx, 1, 1)
-      arcDrawPartInner(ctx, e, 2)
       arcDrawPart(ctx, e, 2)
     },
   },
@@ -218,11 +219,11 @@ let data: IData[] = [
 
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
       mainCircleDraw(ctx)
+      arcDrawPartInner(ctx, 1, 2)
+      arcDrawPartInner(ctx, e, 3)
       arcDrawPart(ctx, 1, 0)
       arcDrawPart(ctx, 1, 1)
-      arcDrawPartInner(ctx, 1, 2)
       arcDrawPart(ctx, 1, 2)
-      arcDrawPartInner(ctx, e, 3)
       arcDrawPart(ctx, e, 3)
     },
   },
@@ -231,14 +232,14 @@ let data: IData[] = [
 
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
       mainCircleDraw(ctx)
-      arcDrawPart(ctx, 1, 0)
-      arcDrawPart(ctx, 1, 1)
       arcDrawPartInner(ctx, 1, 2)
-      arcDrawPart(ctx, 1, 2)
       arcDrawPartInner(ctx, 1, 3)
-      arcDrawPart(ctx, 1, 3)
       arcDrawPartInner(ctx, e, 4)
       arcDrawPartInner2(ctx, e, 4)
+      arcDrawPart(ctx, 1, 0)
+      arcDrawPart(ctx, 1, 1)
+      arcDrawPart(ctx, 1, 2)
+      arcDrawPart(ctx, 1, 3)
       arcDrawPart(ctx, e, 4)
     },
   },
@@ -247,17 +248,17 @@ let data: IData[] = [
 
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
       mainCircleDraw(ctx)
-      arcDrawPart(ctx, 1, 0)
-      arcDrawPart(ctx, 1, 1)
       arcDrawPartInner(ctx, 1, 2)
-      arcDrawPart(ctx, 1, 2)
       arcDrawPartInner(ctx, 1, 3)
-      arcDrawPart(ctx, 1, 3)
       arcDrawPartInner(ctx, 1, 4)
       arcDrawPartInner2(ctx, 1, 4)
-      arcDrawPart(ctx, 1, 4)
       arcDrawPartInner(ctx, e, 5)
       arcDrawPartInner2(ctx, e, 5)
+      arcDrawPart(ctx, 1, 0)
+      arcDrawPart(ctx, 1, 1)
+      arcDrawPart(ctx, 1, 2)
+      arcDrawPart(ctx, 1, 3)
+      arcDrawPart(ctx, 1, 4)
       arcDrawPart(ctx, e, 5)
     },
   },
@@ -278,7 +279,23 @@ let data: IData[] = [
   },
 ]
 
-function mainCircleDraw(ctx: CanvasRenderingContext2D) {
+function mainCircleDraw(ctx: CanvasRenderingContext2D, e: number = 1) {
+  ctx.fillStyle = circleBgColor
+
+  if (e < 1) {
+    ctx.beginPath()
+    ctx.arc(cx, cy, circleR, -turn / 4, -turn / 4 + e * turn)
+    ctx.lineTo(cx, cy)
+    ctx.fill()
+
+    ctx.beginPath()
+    ctx.lineTo(cx, cy)
+    ctx.arc(cx, cy, circleR, -turn / 4, -turn / 4 + e * turn)
+    ctx.lineTo(cx, cy)
+    ctx.stroke()
+    return
+  }
+
   ctx.beginPath()
   ctx.arc(cx, cy, circleR, 0, turn)
   // ctx.lineTo(cx, cy)
@@ -318,6 +335,9 @@ function arcDrawPartInner(
 
   // Big arc circle
   ctx.save()
+
+  ctx.fillStyle = 'white'
+
   let csp = circlePoints6[idx - 2]
   ctx.beginPath()
   ctx.ellipse(csp[0], csp[1], circleR, circleR, 0, 0, turn)
@@ -348,6 +368,9 @@ function arcDrawPartInner2(
 
   // Big arc circle
   ctx.save()
+
+  ctx.fillStyle = 'white'
+
   let csp = circlePoints6[idx - 4]
   ctx.beginPath()
   ctx.ellipse(csp[0], csp[1], circleR, circleR, 0, 0, turn)

@@ -2,8 +2,9 @@
   "name": "next-bauble",
   "version": "1.0.0",
   "scripts": {
-    "1": "yarn rimraf .next && yarn concurrently \"yarn dev\" \"yarn 2\"",
+    "1": "yarn rimraf .next && yarn concurrently \"yarn dev\" \"yarn 2\" \"yarn sidecar\"",
     "2": "yarn css-watch",
+    "sidecar": "yarn barrel-rider-sidecar --watch --src components lib",
     "css-watch": "yarn tsm  \"**/*.module.scss\" --ignore \"**/node_modules\" --watch",
     "css": "yarn tsm  \"**/*.module.scss\" --ignore \"**/node_modules\"",
     "dev": "next",
@@ -14,6 +15,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.149",
     "@zeit/next-sass": "^1.0.1",
+    "barrel-rider-sidecar": "^1.0.23",
     "concurrently": "^5.1.0",
     "fast-random": "^2.0.4",
     "isomorphic-unfetch": "3.0.0",
