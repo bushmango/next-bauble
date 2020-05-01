@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Abstract, Published } from '../Abstract'
+import { Abstract, Published, Started } from '../Abstract'
 import { ClientOnly } from '../ClientOnly'
 import { Layout } from '../Layout'
 import useAnimationForever from '../../lib/useAnimationForever'
@@ -12,9 +12,9 @@ export const GeometryOfCirclesFull = () => {
     <Layout title='Geometry of Circles'>
       <Abstract>
         Geometry of Circles based on a 1979 Sesame Street segment with music by
-        Philip Glass.
+        Philip Glass. Currently first half of the sequence without music.
         <SeeLink href='https://www.youtube.com/watch?v=19hRQfZdTr4' />
-        <Published>Started 4/29/2020</Published>
+        <Started>4/29/2020</Started>
         <Published>5/1/2020 (work in progress)</Published>
       </Abstract>
 

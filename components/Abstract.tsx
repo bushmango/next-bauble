@@ -12,3 +12,6 @@ export const Abstract = (props: { children: React.ReactNode }) => {
 export const Published = (props: { children: React.ReactNode }) => {
   return <div className={css.published}>Published: {props.children}</div>
 }
+export const Started = (props: { children: React.ReactNode }) => {
+  return <div className={css.published}>Started: {props.children}</div>
+}
