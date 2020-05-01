@@ -349,7 +349,6 @@ let data: IData[] = [
   },
   {
     duration: 2,
-    start: true,
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
       circleLinePass(ctx, e, 0)
     },
@@ -393,7 +392,27 @@ let data: IData[] = [
 
   {
     duration: 2,
-    end: true,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleLinePass(ctx, e, 6, e * turn * 1)
+    },
+  },
+
+  {
+    duration: 4,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleLinePass(ctx, e, 6, e * turn * 2, e * turn * 1)
+    },
+  },
+
+  {
+    duration: 2,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleLinePass(ctx, e, 6, 1 * turn * 2, 1 * turn * 1)
+    },
+  },
+
+  {
+    duration: 2,
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
       scaleToHalf(ctx, 1)
       mainCircleDraw(ctx, 1 - e)
@@ -405,6 +424,8 @@ const circleLinePass = (
   ctx: CanvasRenderingContext2D,
   e: number,
   idx: number,
+  middleRotation: number = 0,
+  outerRotation: number = 0,
 ) => {
   scaleToHalf(ctx, 1)
 
@@ -412,14 +433,29 @@ const circleLinePass = (
     ctx.fillStyle = circleColors6[i]
     ctx.beginPath()
     let ie = 1
-    let [nx, ny] = rotate2(cx, cy, cx, cy - circleR * ie * 2, (i * turn) / 6)
+    let [nx, ny] = rotate2(
+      cx,
+      cy,
+      cx,
+      cy - circleR * ie * 2,
+      (i * turn) / 6 + outerRotation,
+    )
     ctx.arc(nx, ny, circleR, 0, turn)
     ctx.fill()
     ctx.stroke()
   }
   mainCircleDraw(ctx)
-  secondArcPass(ctx, 1, 6)
 
+  if (middleRotation) {
+    ctx.save()
+    ctx.translate(cx, cy)
+    ctx.rotate(middleRotation)
+    ctx.translate(-cx, -cy)
+  }
+  secondArcPass(ctx, 1, 6)
+  if (middleRotation) {
+    ctx.restore()
+  }
   let points = [[cx, cy], ...circlePoints6]
 
   let lines: Array<[number, number]> = []
@@ -529,7 +565,7 @@ const circleLinePass = (
       cy,
       cx,
       cy - circleR * 2,
-      (2 * iCircle * turn) / 12,
+      (2 * iCircle * turn) / 12 + outerRotation,
     )
     nx = nx - cx
     ny = ny - cy
