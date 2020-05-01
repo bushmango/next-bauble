@@ -67,12 +67,14 @@ export const render = (canvas: HTMLCanvasElement, elapsedMs: number) => {
 
   let elapsedS = elapsedMs / 1000
 
+  //ctx.fillStyle = 'rgba(0, 0, 200, 0.5)'
+  ctx.fillStyle = 'black'
   ctx.clearRect(0, 0, w, h)
+  ctx.fillRect(0, 0, w, h)
 
   // ctx.fillStyle = 'rgb(200, 0, 0)'
   // ctx.fillRect(10, 10, 50, 50)
 
-  ctx.fillStyle = 'rgba(0, 0, 200, 0.5)'
   // ctx.fillRect(30, 30, 50, 50)
 
   let totalS = 0
@@ -304,7 +306,7 @@ let data: IData[] = [
   },
   {
     duration: 2,
-    start: true,
+
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
       circleSplitPass(ctx, e, 0)
     },
@@ -341,7 +343,13 @@ let data: IData[] = [
   },
   {
     duration: 2,
-    end: true,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      circleSplitPass(ctx, e, 6)
+    },
+  },
+  {
+    duration: 2,
+
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
       scaleToHalf(ctx, 1)
       mainCircleDraw(ctx, 1 - e)
@@ -356,7 +364,7 @@ const circleSplitPass = (
 ) => {
   scaleToHalf(ctx, 1)
 
-  for (let i = 0; i <= idx; i++) {
+  for (let i = 0; i <= idx && i < 6; i++) {
     ctx.fillStyle = circleColors6[i]
     ctx.beginPath()
 
@@ -367,8 +375,36 @@ const circleSplitPass = (
     ctx.fill()
     ctx.stroke()
   }
-
+  mainCircleDraw(ctx)
   secondArcPass(ctx, 1, 6)
+
+  if (idx < 6) {
+    ctx.fillStyle = 'black'
+    // ctx.strokeStyle = 'red'
+    ctx.lineWidth = 4
+    ctx.beginPath()
+    // let p0 = circlePoints6[0]
+    let p1 = circlePoints6[mod(5 + idx, 6)]
+    let p2 = circlePoints6[mod(1 + idx, 6)]
+    // ctx.moveTo(p0[0], p0[1])
+    let arcStart = (-1 / 12) * turn + ((idx * 2) / 12) * turn
+    ctx.arc(p1[0], p1[1], circleR, arcStart, arcStart + (2 / 12) * turn)
+    arcStart = (5 / 12) * turn + ((idx * 2) / 12) * turn
+    ctx.arc(p2[0], p2[1], circleR, arcStart, arcStart + (2 / 12) * turn)
+    ctx.fill()
+    ctx.clip()
+
+    // ctx.stroke()
+
+    ctx.fillStyle = circleColors6[idx]
+    ctx.beginPath()
+
+    let [nx, ny] = rotate2(cx, cy, cx, cy - circleR * e * 2, (idx * turn) / 6)
+
+    ctx.arc(nx, ny, circleR, 0, turn)
+    ctx.fill()
+    ctx.stroke()
+  }
 }
 
 const scaleToHalf = (ctx: CanvasRenderingContext2D, e: number = 1) => {
@@ -428,6 +464,49 @@ const secondArcPass = (
   }
   if (idx < 6) {
     arcDrawPartInner(ctx, e, idxs[idx], circleColors6[colorIdxs[idx]])
+  }
+
+  arcDrawPart(ctx, 1, 0)
+  arcDrawPart(ctx, 1, 1)
+  arcDrawPart(ctx, 1, 2)
+  arcDrawPart(ctx, 1, 3)
+  arcDrawPart(ctx, 1, 4)
+  arcDrawPart(ctx, 1, 5)
+
+  // This looks really cool
+  // for (let i = 0; i < idx; i++) {
+  //   arcDrawPart(ctx, e, i)
+  // }
+  for (let i = 0; i < idx; i++) {
+    arcDrawPart(ctx, 1, i)
+  }
+  if (idx < 6) {
+    arcDrawPart(ctx, e, idx)
+  }
+}
+
+const splitOutArcPass = (
+  ctx: CanvasRenderingContext2D,
+  e: number,
+  idx: number,
+) => {
+  // Last stage
+  //mainCircleDraw(ctx)
+  // arcDrawPartInner(ctx, 1, 2)
+  // arcDrawPartInner(ctx, 1, 3)
+  // arcDrawPartInner(ctx, 1, 4)
+  // arcDrawPartInner2(ctx, 1, 4)
+  // arcDrawPartInner(ctx, 1, 5)
+  // arcDrawPartInner2(ctx, 1, 5)
+
+  let idxs = [6, 1, 2, 3, 4, 5]
+  let colorIdxs = [5, 0, 1, 2, 3, 4]
+
+  for (let i = 0; i < idx; i++) {
+    //arcDrawPartInner(ctx, 1, idxs[i], circleColors6[colorIdxs[i]])
+  }
+  if (idx < 6) {
+    //arcDrawPartInner(ctx, e, idxs[idx], circleColors6[colorIdxs[idx]])
   }
 
   arcDrawPart(ctx, 1, 0)
