@@ -110,6 +110,8 @@ export const render = (canvas: HTMLCanvasElement, elapsedMs: number) => {
     elapsedS -= totalS
   }
 
+  ctx.lineWidth = 1.5
+
   if (focusData) {
     focusData.renderer(ctx, elapsedS, elapsedS / focusData.duration)
   } else {
@@ -248,15 +250,55 @@ let data: IData[] = [
   },
   {
     duration: 2,
-    start: true,
+
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
       secondArcPass(ctx, e, 5)
     },
   },
   {
+    duration: (2.5 / 4) * 10,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      ctx.save()
+      ctx.translate(cx, cy)
+      ctx.rotate(e * turn * 2.5)
+      ctx.translate(-cx, -cy)
+      secondArcPass(ctx, 1, 6)
+      ctx.restore()
+    },
+  },
+  {
+    duration: (1.5 / 4) * 10,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      ctx.save()
+      ctx.translate(cx, cy)
+      ctx.rotate(e * turn * 1.5 + turn * 2.5)
+      ctx.scale(0.5 + (1 - e) * 0.5, 0.5 + (1 - e) * 0.5)
+      ctx.translate(-cx, -cy)
+
+      secondArcPass(ctx, 1, 6)
+      ctx.restore()
+    },
+  },
+  {
+    duration: 5,
+    renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      ctx.save()
+      ctx.translate(cx, cy)
+      ctx.scale(0.5, 0.5)
+      ctx.translate(-cx, -cy)
+      secondArcPass(ctx, 1, 6)
+      ctx.restore()
+    },
+  },
+  {
     duration: 2,
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      ctx.save()
+      ctx.translate(cx, cy)
+      ctx.scale(0.5, 0.5)
+      ctx.translate(-cx, -cy)
       mainCircleDraw(ctx, 1 - e)
+      ctx.restore()
     },
   },
 ]
@@ -310,7 +352,9 @@ const secondArcPass = (
   for (let i = 0; i < idx; i++) {
     arcDrawPartInner(ctx, 1, idxs[i], circleColors6[colorIdxs[i]])
   }
-  arcDrawPartInner(ctx, e, idxs[idx], circleColors6[colorIdxs[idx]])
+  if (idx < 6) {
+    arcDrawPartInner(ctx, e, idxs[idx], circleColors6[colorIdxs[idx]])
+  }
 
   arcDrawPart(ctx, 1, 0)
   arcDrawPart(ctx, 1, 1)
@@ -326,7 +370,9 @@ const secondArcPass = (
   for (let i = 0; i < idx; i++) {
     arcDrawPart(ctx, 1, i)
   }
-  arcDrawPart(ctx, e, idx)
+  if (idx < 6) {
+    arcDrawPart(ctx, e, idx)
+  }
 }
 
 function mainCircleDraw(ctx: CanvasRenderingContext2D, e: number = 1) {
