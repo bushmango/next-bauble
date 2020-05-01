@@ -21,6 +21,14 @@ export const GeometryOfCirclesFull = () => {
   )
 }
 
+let w = 400
+let h = 400
+let cx = w / 2
+let cy = h / 2
+
+let turn = Math.PI * 2
+let circleR = w / 3
+
 export const GeometryOfCircles = () => {
   let refCanvas = React.useRef<HTMLCanvasElement>(null)
 
@@ -37,8 +45,8 @@ export const GeometryOfCircles = () => {
       Geometry of Cirlces! {elapsed}
       <div>
         <canvas
-          width='200'
-          height='200'
+          width={'' + w}
+          height={'' + h}
           ref={refCanvas}
           style={{ border: 'solid 1px black' }}
         ></canvas>
@@ -101,14 +109,6 @@ export const render = (canvas: HTMLCanvasElement, elapsedMs: number) => {
 // for 5 seconds
 // arc 0-1t
 // line from center to left
-
-let w = 200
-let h = 200
-let cx = w / 2
-let cy = h / 2
-
-let turn = Math.PI * 2
-let circleR = w / 3
 
 let circlePoints6: Array<[number, number]> = []
 for (let i = 0; i < 6; i++) {
@@ -209,11 +209,14 @@ let data: IData[] = [
   },
   {
     duration: 2,
+    focus: true,
     renderer: (ctx: CanvasRenderingContext2D, es: number, e: number) => {
+      arcDrawPartInner(ctx, e, 3)
       mainCircleDraw(ctx)
       arcDrawPart(ctx, 1, 0)
       arcDrawPart(ctx, 1, 1)
       arcDrawPart(ctx, 1, 2)
+
       arcDrawPart(ctx, e, 3)
     },
   },
@@ -273,4 +276,43 @@ function arcDrawPart(ctx: CanvasRenderingContext2D, e: number, idx: number) {
   let arcStart = ((5 + idx * 2) / 12) * turn
   ctx.arc(sp[0], sp[1], circleR, arcStart, arcStart - (e * 4 * turn) / 12, true)
   ctx.stroke()
+}
+
+function arcDrawPartInner(
+  ctx: CanvasRenderingContext2D,
+  e: number,
+  idx: number,
+) {
+  // Big arc circle
+  ctx.save()
+  let csp = circlePoints6[idx - 2]
+  ctx.beginPath()
+  ctx.ellipse(csp[0], csp[1], circleR, circleR, 0, 0, turn)
+  ctx.clip()
+
+  // Pie shape
+  let sp = circlePoints6[idx]
+  let [nx, ny] = rotate2(sp[0], sp[1], cx, cy, turn / 6 - (e * turn) / 3)
+  ctx.beginPath()
+  ctx.lineTo(sp[0], sp[1])
+  let arcStart = ((5 + idx * 2) / 12) * turn
+  ctx.arc(sp[0], sp[1], circleR, arcStart, arcStart - (e * 4 * turn) / 12, true)
+  ctx.lineTo(nx, ny)
+  ctx.fill()
+
+  ctx.restore()
+  // ctx.beginPath()
+  // ctx.rect(0, 0, w, h)
+  // ctx.clip()
+
+  // ctx.beginPath()
+  // ctx.moveTo(sp[0], sp[1])
+  // let [nx, ny] = rotate2(sp[0], sp[1], cx, cy, turn / 6 - (e * turn) / 3)
+  // ctx.moveTo(nx, ny)
+
+  // // ctx.moveTo(cx, cy - circleR)
+  // let arcStart = ((5 + idx * 2) / 12) * turn
+  // ctx.arc(sp[0], sp[1], circleR, arcStart, arcStart - (e * 4 * turn) / 12, true)
+  // ctx.moveTo(nx, ny)
+  // ctx.fill()
 }
