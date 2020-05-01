@@ -25,8 +25,8 @@ export const GeometryOfCirclesFull = () => {
   )
 }
 
-let w = 400
-let h = 400
+let w = 800
+let h = 800
 let cx = w / 2
 let cy = h / 2
 
@@ -112,7 +112,7 @@ export const render = (canvas: HTMLCanvasElement, elapsedMs: number) => {
     elapsedS -= totalS
   }
 
-  ctx.lineWidth = 1.5
+  ctx.lineWidth = 3 //1.5
 
   if (focusData) {
     ctx.save()
