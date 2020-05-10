@@ -73,8 +73,9 @@ export const ScratchLinear = (props: {
 
   return (
     <Translate x={x} y={y}>
-      {l.map(labels, (c) => (
+      {l.map(labels, (c, cIdx) => (
         <g
+          key={cIdx}
           transform={`translate(${scaleScratchX(
             (c.val / maxLabel) * maxTicks,
           )}, 0)`}

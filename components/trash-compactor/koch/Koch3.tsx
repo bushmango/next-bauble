@@ -1,39 +1,38 @@
 import * as d3 from 'd3'
-import l from 'lodash'
+import _ from 'lodash'
 import React from 'react'
 import Victor from 'victor'
-import { Layout } from '../../layout/Layout'
+import { Layout } from '../../layout/Layout-sidecar'
 import { Abstract, Published } from '../../shared/Abstract'
+import { ClientOnly } from '../../shared/ClientOnly'
 import { SeeLink } from '../../shared/SeeLink'
 import { ZenLink } from '../../shared/ZenLink'
-import { ClientOnly } from '../../shared/ClientOnly'
-import { FractalTree } from '../FractalTree'
 
-export const KochSnowflakeFractal1Full = () => {
+export const KochSnowflakeFractal3Full = () => {
   return (
-    <Layout title='Koch Snowflake Fractal 1'>
+    <Layout title='Koch Snowflake Fractal 3'>
       <Abstract>
-        Fractal animation. Originally part of the Trash-Compactor collection.
+        Fractal animation. Variant where the snowflake is inset-cut. Originally
+        part of the Trash-Compactor collection.
         <SeeLink href='https://en.wikipedia.org/wiki/Koch_snowflake' />
         <Published>Republished: 5/10/2020</Published>
       </Abstract>
 
-      <ZenLink href='/koch-snowflake-fractal-1-zen' />
+      <ZenLink href='/koch-snowflake-fractal-3-zen' />
 
       <ClientOnly>
-        <KochSnowflakeFractal1 />
+        <KochSnowflakeFractal3 />
       </ClientOnly>
     </Layout>
   )
 }
-
 function delay(milliseconds: number) {
   return new Promise<void>((resolve) => {
     setTimeout(resolve, milliseconds)
   })
 }
 
-export const KochSnowflakeFractal1 = () => {
+export const KochSnowflakeFractal3 = () => {
   const isCancelled = React.useRef(false)
   let [state, setState] = React.useState({
     iteration: 0,
@@ -45,11 +44,10 @@ export const KochSnowflakeFractal1 = () => {
   })
 
   const mergeState = (newState: any) => {
-    setState(l.merge({}, state, newState))
+    setState(_.merge({}, state, newState))
   }
-
   React.useEffect(() => {
-    mergeState({ currentLines: _initialTriangle() })
+    mergeState(_initialTriangle())
     buildKoch()
     return () => {
       isCancelled.current = true
@@ -89,7 +87,6 @@ export const KochSnowflakeFractal1 = () => {
       if (isCancelled.current) {
         return
       }
-
       while (currentLines.length > 0) {
         let curLine = currentLines.shift()
         let split = _splitLine(curLine, factor)
@@ -118,7 +115,7 @@ export const KochSnowflakeFractal1 = () => {
 
     let vDelta = v2.clone().subtract(v1).normalize()
 
-    let factorAdjust = 1
+    let factorAdjust = -0.75
 
     let actualFactor = (distance / 3.0 / 2.0) * Math.sqrt(3) * factorAdjust
 
@@ -189,7 +186,7 @@ export const KochSnowflakeFractal1 = () => {
   let path = 'M0 0'
   if (currentLines.length > 0) {
     path = 'M' + xFunc(currentLines[0][0]) + ' ' + yFunc(currentLines[0][1])
-    l.forEach(currentLines, (c) => {
+    _.forEach(currentLines, (c) => {
       path += ' L' + xFunc(c[2]) + ' ' + yFunc(c[3])
     })
   }
@@ -197,7 +194,7 @@ export const KochSnowflakeFractal1 = () => {
   let path2 = 'M0 0'
   if (nextLines.length > 0) {
     path2 = 'M' + xFunc(nextLines[0][0]) + ' ' + yFunc(nextLines[0][1])
-    l.forEach(nextLines, (c) => {
+    _.forEach(nextLines, (c) => {
       path2 += ' L' + xFunc(c[2]) + ' ' + yFunc(c[3])
     })
   }
