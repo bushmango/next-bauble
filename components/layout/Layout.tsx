@@ -13,6 +13,7 @@ const links = [
   ['/scratch-clock-linear', 'Scratch Clock Linear'],
   ['/scratch-clock-radial', 'Scratch Clock Radial'],
   // ['/scratch-clock-radial-alt', 'Scratch Clock Radial (Alt)'],
+  ['/fractal-tree', 'Fractal Tree'],
 ]
 
 export const Layout = (props: { children: React.ReactNode; title: string }) => {
