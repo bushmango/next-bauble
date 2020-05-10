@@ -8,7 +8,7 @@ import { Abstract, Published } from '../../shared/Abstract'
 import { ClientOnly } from '../../shared/ClientOnly'
 import { SeeLink } from '../../shared/SeeLink'
 import { ZenLink } from '../../shared/ZenLink'
-import { globalMouseHandler } from '../globalMouseHandler-sidecar'
+import { globalMouseHandler } from '../lib/globalMouseHandler-sidecar'
 
 export const D3RoundedRectsFull = () => {
   return (

@@ -7,7 +7,7 @@ import { Abstract, Published } from '../../shared/Abstract'
 import { SeeLink } from '../../shared/SeeLink'
 import { ZenLink } from '../../shared/ZenLink'
 import { ClientOnly } from '../../shared/ClientOnly'
-import { FractalTree } from '../FractalTree'
+import { FractalTree } from '../fractal/FractalTree'
 
 export const KochSnowflakeFractal1Full = () => {
   return (

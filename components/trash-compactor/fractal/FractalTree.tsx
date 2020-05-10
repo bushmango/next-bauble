@@ -1,11 +1,11 @@
 import * as d3 from 'd3'
 import l from 'lodash'
 import React from 'react'
-import { Layout } from '../layout/Layout-sidecar'
-import { Abstract, Published } from '../shared/Abstract-sidecar'
-import { ClientOnly } from '../shared/ClientOnly'
-import { SeeLink } from '../shared/SeeLink'
-import { ZenLink } from '../shared/ZenLink-sidecar'
+import { Layout } from '../../layout/Layout-sidecar'
+import { Abstract, Published } from '../../shared/Abstract-sidecar'
+import { ClientOnly } from '../../shared/ClientOnly'
+import { SeeLink } from '../../shared/SeeLink'
+import { ZenLink } from '../../shared/ZenLink-sidecar'
 
 export const FractalTreeFull = () => {
   return (
