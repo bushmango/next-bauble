@@ -1,8 +1,8 @@
 import * as d3 from 'd3'
 import l from 'lodash'
 import React from 'react'
-import { useAnimationForever } from '../../lib/useAnimationForever-sidecar'
-import { Translate } from './graphs/Translate-sidecar'
+import { useAnimationForever } from '../../../lib/useAnimationForever-sidecar'
+import { Translate } from './../graphs/Translate-sidecar'
 
 interface ILabel {
   val: number

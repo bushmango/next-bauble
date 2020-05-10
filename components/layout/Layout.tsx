@@ -17,6 +17,9 @@ const links = [
   ['/koch-snowflake-fractal-1', 'Koch Snowflake 1'],
   ['/koch-snowflake-fractal-2', 'Koch Snowflake 2'],
   ['/koch-snowflake-fractal-3', 'Koch Snowflake 3'],
+  ['/boxes-1', 'Boxes 1'],
+  ['/boxes-2', 'Boxes 2'],
+  ['/boxes-3', 'Boxes 3'],
 ]
 
 export const Layout = (props: { children: React.ReactNode; title: string }) => {

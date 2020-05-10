@@ -1,10 +1,10 @@
 import l from 'lodash'
-import { Layout } from '../layout/Layout'
-import { Abstract, Published } from '../shared/Abstract'
-import { ZenLink } from '../shared/ZenLink'
+import { Layout } from '../../layout/Layout'
+import { Abstract, Published } from '../../shared/Abstract'
+import { ZenLink } from '../../shared/ZenLink'
 import * as clockUtil from './clockUtil'
-import { Graph } from './graphs/Graph-sidecar'
-import { Translate } from './graphs/Translate-sidecar'
+import { Graph } from './../graphs/Graph-sidecar'
+import { Translate } from './../graphs/Translate-sidecar'
 import { ScratchRadial } from './ScratchRadial'
 
 const subSecondTicks = 10
