@@ -25,6 +25,7 @@ const links = [
   ['/d3-rounded-rects', 'D3 Rounded Rects'],
   ['/fractal-monkey', 'Fractal Monkey'],
   ['/recursive-graph', 'Recursive Graph'],
+  ['/cat-sprite', 'Cat Sprite'],
 ]
 
 export const Layout = (props: { children: React.ReactNode; title: string }) => {
