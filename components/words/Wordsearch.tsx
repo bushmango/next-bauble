@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Abstract, Published } from './shared/Abstract'
-import { ClientOnly } from './shared/ClientOnly'
-import { Layout } from './layout/Layout'
+import { Abstract, Published } from '../shared/Abstract'
+import { ClientOnly } from '../shared/ClientOnly'
+import { Layout } from '../layout/Layout'
 
 export const WordsearchFull = () => {
   return (

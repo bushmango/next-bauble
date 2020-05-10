@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Abstract } from './shared/Abstract'
-import { Layout } from './layout/Layout'
+import { Abstract } from '../shared/Abstract'
+import { Layout } from '../layout/Layout'
 
 export const AboutFull = () => {
   return (
