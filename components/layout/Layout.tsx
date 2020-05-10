@@ -12,6 +12,7 @@ const links = [
   ['/geometry-of-circles', 'Geometry of Circles'],
   ['/scratch-clock-linear', 'Scratch Clock Linear'],
   ['/scratch-clock-radial', 'Scratch Clock Radial'],
+  // ['/scratch-clock-radial-alt', 'Scratch Clock Radial (Alt)'],
 ]
 
 export const Layout = (props: { children: React.ReactNode; title: string }) => {
