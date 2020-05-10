@@ -10,6 +10,8 @@ const links = [
   ['/game-of-life', 'Game of Life'],
   ['/game-of-life-classic', 'Game of Life Classic'],
   ['/geometry-of-circles', 'Geometry of Circles'],
+  ['/scratch-clock-linear', 'Scratch Clock Linear'],
+  ['/scratch-clock-radial', 'Scratch Clock Radial'],
 ]
 
 export const Layout = (props: { children: React.ReactNode; title: string }) => {

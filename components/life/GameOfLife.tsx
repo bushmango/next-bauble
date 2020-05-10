@@ -1,11 +1,11 @@
 import * as l from 'lodash'
 import * as React from 'react'
-import useAnimationForever from '../../lib/useAnimationForever'
-import { Abstract, Published } from '../shared/Abstract'
+import { useAnimationForever } from '../../lib/useAnimationForever-sidecar'
 import { Layout } from '../layout/Layout'
-import { SeeLink, SeeInternalLink } from '../shared/SeeLink'
-import { ZenLink } from '../shared/ZenLink'
+import { Abstract, Published } from '../shared/Abstract'
 import { ClientOnly } from '../shared/ClientOnly'
+import { SeeInternalLink, SeeLink } from '../shared/SeeLink'
+import { ZenLink } from '../shared/ZenLink'
 
 export const GameOfLifeFull = () => {
   return (

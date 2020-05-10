@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export default function useAnimationForever() {
+export function useAnimationForever() {
   const [elapsed, setTime] = useState(0)
 
   useEffect(() => {

@@ -1,9 +1,9 @@
 import * as React from 'react'
-import useAnimationForever from '../../lib/useAnimationForever'
-import { Abstract, Published } from '../shared/Abstract'
+import { useAnimationForever } from '../../lib/useAnimationForever-sidecar'
 import { Layout } from '../layout/Layout'
-import { ZenLink } from '../shared/ZenLink'
+import { Abstract, Published } from '../shared/Abstract'
 import { ClientOnly } from '../shared/ClientOnly'
+import { ZenLink } from '../shared/ZenLink'
 
 export const RebreatherFull = () => {
   return (

@@ -2,4 +2,5 @@
 /* eslint-disable */
 /* tslint:disable */
 export const noop = () => {}
-export * from './useAnimationForever'
+import * as clockUtil from './clockUtil'
+export { clockUtil }
