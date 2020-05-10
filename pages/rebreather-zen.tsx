@@ -1,8 +1,8 @@
 import { NextPage } from 'next'
 import * as React from 'react'
-import { Rebreather } from '../components/Rebreather'
-import { ScreenCenter } from '../components/ScreenCenter'
-import { ClientOnly } from '../components/ClientOnly'
+import { Rebreather } from '../components/rebreather/Rebreather'
+import { ScreenCenter } from '../components/shared/ScreenCenter'
+import { ClientOnly } from '../components/shared/ClientOnly'
 
 const Page: NextPage = () => {
   return (

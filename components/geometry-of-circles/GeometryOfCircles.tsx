@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { Abstract, Published, Started } from '../Abstract'
-import { ClientOnly } from '../ClientOnly'
-import { Layout } from '../Layout'
+import { Abstract, Published, Started } from '../shared/Abstract'
+import { ClientOnly } from '../shared/ClientOnly'
+import { Layout } from '../layout/Layout'
 import useAnimationForever from '../../lib/useAnimationForever'
 
 import { rotate, rotate2 } from './geomLib'
-import { SeeLink } from '../SeeLink'
+import { SeeLink } from '../shared/SeeLink'
 
 export const GeometryOfCirclesFull = () => {
   return (
