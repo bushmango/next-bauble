@@ -22,6 +22,7 @@ const links = [
   ['/boxes-3', 'Boxes 3'],
   ['/d3-pack', 'D3 Pack'],
   ['/d3-pack-eyes', 'D3 Pack Eyes'],
+  ['/d3-rounded-rects', 'D3 Rounded Rects'],
 ]
 
 export const Layout = (props: { children: React.ReactNode; title: string }) => {
