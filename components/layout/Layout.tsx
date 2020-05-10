@@ -14,6 +14,7 @@ const links = [
   ['/scratch-clock-radial', 'Scratch Clock Radial'],
   // ['/scratch-clock-radial-alt', 'Scratch Clock Radial (Alt)'],
   ['/fractal-tree', 'Fractal Tree'],
+  ['/koch-snowflake-fractal-1', 'Koch Snowflake 1'],
 ]
 
 export const Layout = (props: { children: React.ReactNode; title: string }) => {

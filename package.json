@@ -16,6 +16,7 @@
     "@types/d3": "^5.7.2",
     "@types/lodash": "^4.14.149",
     "@types/moment": "^2.13.0",
+    "@types/victor": "^1.1.0",
     "@zeit/next-sass": "^1.0.1",
     "barrel-rider-sidecar": "^1.0.23",
     "concurrently": "^5.1.0",
@@ -28,7 +29,8 @@
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "victor": "^1.1.0"
   },
   "devDependencies": {
     "@types/node": "13.11.1",
