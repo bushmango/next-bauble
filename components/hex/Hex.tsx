@@ -155,6 +155,14 @@ export const render = (
   ctx.ellipse(mouseX, mouseY, 5, 5, 0, 0, turn)
   ctx.closePath()
   ctx.stroke()
+
+  let ox = 50
+  let oy = 50
+
+  let selHexX = Math.floor(mouseX / r)
+  let selHexY = Math.floor((mouseY - oy + hh) / (hh * 2))
+
+  hex(ctx, selHexX * r, selHexY * hh * 2 + oy, r)
 }
 
 const turn = 2 * Math.PI
