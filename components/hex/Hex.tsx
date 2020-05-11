@@ -23,6 +23,20 @@ export const HexFull = () => {
   )
 }
 
+let mouseX = 0
+let mouseY = 0
+const _onMouseMove = (
+  evt: React.MouseEvent<any>,
+  canvas: HTMLCanvasElement | null,
+) => {
+  if (!canvas) {
+    return
+  }
+  var rect = canvas.getBoundingClientRect()
+  mouseX = evt.clientX - rect.left
+  mouseY = evt.clientY - rect.top
+}
+
 export const Hex = () => {
   let refCanvas = React.useRef<HTMLCanvasElement>(null)
 
@@ -47,6 +61,12 @@ export const Hex = () => {
       Geometry of Cirlces! {elapsed}
       <div>
         <canvas
+          onMouseMove={(evt) => {
+            _onMouseMove(evt, refCanvas.current)
+          }}
+          onMouseEnter={(evt) => {
+            _onMouseMove(evt, refCanvas.current)
+          }}
           width={'' + w}
           height={'' + h}
           ref={refCanvas}
@@ -129,6 +149,12 @@ export const render = (
       ctx.restore()
     }
   }
+
+  ctx.strokeStyle = 'green'
+  ctx.beginPath()
+  ctx.ellipse(mouseX, mouseY, 5, 5, 0, 0, turn)
+  ctx.closePath()
+  ctx.stroke()
 }
 
 const turn = 2 * Math.PI
