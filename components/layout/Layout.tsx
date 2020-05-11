@@ -26,6 +26,7 @@ const links = [
   ['/fractal-monkey', 'Fractal Monkey'],
   ['/recursive-graph', 'Recursive Graph'],
   ['/cat-sprite', 'Cat Sprite'],
+  ['/hex', 'Hex'],
 ]
 
 export const Layout = (props: { children: React.ReactNode; title: string }) => {
