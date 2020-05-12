@@ -5,6 +5,7 @@ import { Abstract, Published, Started } from '../shared/Abstract'
 import { ClientOnly } from '../shared/ClientOnly'
 import { SeeLink } from '../shared/SeeLink'
 import { rotate, rotate2 } from './geomLib'
+import { ZenLink } from '../shared/ZenLink'
 
 export const GeometryOfCirclesFull = () => {
   return (
@@ -15,6 +16,7 @@ export const GeometryOfCirclesFull = () => {
         <SeeLink href='https://www.youtube.com/watch?v=19hRQfZdTr4' />
         <Started>4/29/2020</Started>
         <Published>5/1/2020 (work in progress)</Published>
+        <ZenLink href='/geometry-of-circles-zen' />
       </Abstract>
 
       <ClientOnly>
@@ -45,7 +47,7 @@ export const GeometryOfCircles = () => {
 
   return (
     <div>
-      Geometry of Cirlces! {elapsed}
+      {/* Geometry of Cirlces! {elapsed} */}
       <div>
         <canvas
           width={'' + w}

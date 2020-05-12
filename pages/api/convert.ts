@@ -7,10 +7,13 @@ import fs from 'fs'
 import _ from 'lodash'
 const { createCanvas, loadImage, Image } = require('canvas')
 
-const allowed = false
+const allowed = process.env.NODE_ENV !== 'production'
 
 const render = (filename: string) => {
-  const canvas = createCanvas(100, 100)
+  let w = 200
+  let h = 200
+
+  const canvas = createCanvas(w, h)
   const ctx = canvas.getContext('2d')
 
   // Write "Awesome!"
@@ -28,7 +31,13 @@ const render = (filename: string) => {
 
   const img = new Image()
   img.onload = () => {
-    ctx.drawImage(img, 0, 0)
+    console.log(img.width, img.height)
+
+    let ox = (img.width - w) / 2
+    let oy = (img.height - h) / 2
+
+    ctx.drawImage(img, -ox, -oy)
+
     const out = fs.createWriteStream(dirOut + filename)
     const stream = canvas.createPNGStream()
     stream.pipe(out)
@@ -60,8 +69,8 @@ export default (req: any, res: any) => {
       name: 'CONVERT',
       dir: __dirname,
       files,
-      fruit: process.env.FRUIT,
-      buildCode: process.env.BUILD_CODE,
+      // fruit: process.env.FRUIT,
+      // buildCode: process.env.BUILD_CODE,
     }),
   )
 }

@@ -58,7 +58,6 @@ export const Hex = () => {
 
   return (
     <div>
-      Geometry of Cirlces! {elapsed}
       <div>
         <canvas
           onMouseMove={(evt) => {
