@@ -159,10 +159,18 @@ export const render = (
   let ox = 50
   let oy = 50
 
-  let selHexX = Math.floor(mouseX / r)
+  let selHexX = Math.floor((mouseX - ox + r / 2) / (r + r / 2))
+
+  let oddRow = selHexX % 2 === 1
+  if (oddRow) {
+    oy += hh
+  }
+
   let selHexY = Math.floor((mouseY - oy + hh) / (hh * 2))
 
-  hex(ctx, selHexX * r, selHexY * hh * 2 + oy, r)
+  let selHexHalfY = Math.floor((mouseY - oy + hh) / hh)
+  console.log(selHexHalfY, oddRow)
+  hex(ctx, selHexX * (r + r / 2) + ox, selHexY * hh * 2 + oy, r, 'green')
 }
 
 const turn = 2 * Math.PI
@@ -220,8 +228,9 @@ const hex = (
   x: number,
   y: number,
   r: number,
+  color?: string,
 ) => {
-  ctx.strokeStyle = 'blue'
+  ctx.strokeStyle = color || 'blue'
   ctx.beginPath()
 
   ctx.save()
