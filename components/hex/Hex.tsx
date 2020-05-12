@@ -1,11 +1,11 @@
+import _ from 'lodash'
 import * as React from 'react'
 import { useAnimationForever } from '../../lib/useAnimationForever-sidecar'
+import { rotate2 } from '../geometry-of-circles/geomLib'
 import { Layout } from '../layout/Layout'
 import { Abstract, Published } from '../shared/Abstract'
 import { ClientOnly } from '../shared/ClientOnly'
 import { ZenLink } from '../shared/ZenLink'
-import { rotate2 } from '../geometry-of-circles/geomLib'
-import _ from 'lodash'
 
 export const HexFull = () => {
   return (
@@ -106,7 +106,10 @@ const loadImage = (key: string, src: string) => {
     img.src = src // Set source path
   }
 }
-
+// see: https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
+function mod(n: number, m: number) {
+  return ((n % m) + m) % m
+}
 export const render = (
   canvas: HTMLCanvasElement,
   elapsedMs: number,
@@ -159,18 +162,40 @@ export const render = (
   let ox = 50
   let oy = 50
 
-  let selHexX = Math.floor((mouseX - ox + r / 2) / (r + r / 2))
+  let mya = mouseY - oy + hh
+  let mxa = mouseX - ox
 
-  let oddRow = selHexX % 2 === 1
+  let xa = 0
+
+  let rrr2 = r + r / 2
+
+  let selHexHalfY = Math.floor(mya / hh)
+
+  let selHexXRough = Math.floor((mouseX - ox + r) / rrr2)
+
+  let myahh = mya - selHexHalfY * hh
+  let mxaa = mxa - selHexXRough * rrr2
+
+  if (mod(selHexHalfY, 2) !== mod(selHexXRough, 2)) {
+    if (mxaa < -r / 2) {
+      xa += ((1 - myahh / hh) * r) / 2
+    }
+  } else {
+    if (mxaa < -r / 2) {
+      xa += ((myahh / hh) * r) / 2
+    }
+  }
+
+  let selHexX = Math.floor((mouseX - ox + r / 2 + xa) / rrr2)
+
+  let oddRow = mod(selHexX, 2) === 1
   if (oddRow) {
     oy += hh
   }
 
   let selHexY = Math.floor((mouseY - oy + hh) / (hh * 2))
 
-  let selHexHalfY = Math.floor((mouseY - oy + hh) / hh)
-  console.log(selHexHalfY, oddRow)
-  hex(ctx, selHexX * (r + r / 2) + ox, selHexY * hh * 2 + oy, r, 'green')
+  hex(ctx, selHexX * rrr2 + ox, selHexY * hh * 2 + oy, r, 'green')
 }
 
 const turn = 2 * Math.PI
