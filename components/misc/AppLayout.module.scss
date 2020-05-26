@@ -7,18 +7,21 @@
   border: dashed 1px #777;
 }
 
+$headerHeight: 2em;
+$footerHeight: 1.5em;
+$toolbarHeight: 3em;
+$otherHeight: $headerHeight + $footerHeight + $toolbarHeight;
+$mainHeight: calc(100vh - #{$otherHeight});
+
 .header {
-  height: 2em;
-  max-height: 2em;
+  height: $headerHeight;
 }
 .footer {
-  height: 1.5em;
-  max-height: 1.5em;
+  height: $footerHeight;
 }
 .toolbar {
-  height: 3em;
-  max-height: 3em;
+  height: $toolbarHeight;
 }
 .main {
-  height: calc(100vh - 6.5em);
+  height: $mainHeight;
 }
