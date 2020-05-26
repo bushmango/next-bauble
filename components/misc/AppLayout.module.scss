@@ -1,0 +1,24 @@
+.section,
+.header,
+.footer,
+.toolbar,
+.main {
+  box-sizing: border-box;
+  border: dashed 1px #777;
+}
+
+.header {
+  height: 2em;
+  max-height: 2em;
+}
+.footer {
+  height: 1.5em;
+  max-height: 1.5em;
+}
+.toolbar {
+  height: 3em;
+  max-height: 3em;
+}
+.main {
+  height: calc(100vh - 6.5em);
+}
