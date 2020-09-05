@@ -5,15 +5,21 @@ import { Abstract, Published } from '../shared/Abstract'
 import { ClientOnly } from '../shared/ClientOnly'
 import { ZenLink } from '../shared/ZenLink'
 import { tinySprite } from './tinySprite-sidecar'
+import { SeeLink } from '../shared/SeeLink'
 
 export const GeneratedSpritesFull = () => {
   return (
     <Layout title='Hex'>
       <Abstract>
-        Generated Sprites
+        Generated Sprites - Click to generate more!
         <Published>9/5/2020</Published>
       </Abstract>
-
+      <SeeLink href='https://www.reddit.com/r/proceduralgeneration/comments/ij7zx6/tiny_procedural_sprite_sheet_generator/'>
+        Tiny Procedural Sprite Sheet Generator (u/Slackluster)
+      </SeeLink>
+      <SeeLink href='https://www.dwitter.net/d/3078'>
+        https://www.dwitter.net/d/3078
+      </SeeLink>
       <ZenLink href='/generated-sprites-zen' />
       <ClientOnly>
         <GeneratedSprites />
@@ -45,6 +51,10 @@ export const GeneratedSprites = () => {
   let h = 400
 
   React.useEffect(() => {
+    reset()
+  }, [])
+
+  React.useEffect(() => {
     if (refCanvas.current) {
       render(refCanvas.current, elapsed, w, h)
     }
@@ -54,6 +64,9 @@ export const GeneratedSprites = () => {
     <div>
       <div>
         <canvas
+          onMouseDown={() => {
+            _onMouseDown()
+          }}
           onMouseMove={(evt) => {
             _onMouseMove(evt, refCanvas.current)
           }}
@@ -76,19 +89,47 @@ function mod(n: number, m: number) {
 }
 
 let seed = Date.now()
+let isDone = false
+let renderElapsed = 0
+let lastElapsed = 0
+
+const _onMouseDown = () => {
+  reset()
+}
+
+const reset = () => {
+  seed = Date.now()
+  isDone = false
+  renderElapsed = 0
+  lastElapsed = 0
+}
+
 export const render = (
   canvas: HTMLCanvasElement,
   elapsedMs: number,
   w: number,
   h: number,
 ) => {
+  if (isDone) {
+    return
+  }
+
+  if (lastElapsed === 0) {
+    lastElapsed = elapsedMs
+    return
+  }
+  let elapsedDelta = elapsedMs - lastElapsed
+  lastElapsed = elapsedMs
+  renderElapsed += elapsedDelta
+
+  let elapsedS = renderElapsed / 1000
+  const maxProgress = 101
+  const progress = elapsedS * 30
+
   let ctx = canvas.getContext('2d')
   if (!ctx) {
     return
   }
-
-  let elapsedS = elapsedMs / 1000
-  let turn = 2 * Math.PI
 
   ctx.resetTransform()
   ctx.scale(4, 4)
@@ -104,5 +145,9 @@ export const render = (
   // ctx.stroke()
 
   ctx.strokeStyle = 'black'
-  tinySprite.tinySprite_render(seed, ctx, 2, elapsedS * 10)
+  tinySprite.tinySprite_render(seed, ctx, 2, progress)
+
+  if (progress > maxProgress) {
+    isDone = true
+  }
 }

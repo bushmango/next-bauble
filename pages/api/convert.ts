@@ -61,7 +61,9 @@ export default (req: any, res: any) => {
 
   let files = fs.readdirSync(dirIn)
   _.forEach(files, (c) => {
-    render(c)
+    if (c.endsWith('.png')) {
+      render(c)
+    }
   })
 
   res.end(
