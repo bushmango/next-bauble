@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { GraphArea } from './GraphArea-sidecar'
+import { GraphArea } from './GraphArea'
 
 export const Graph = (props: {
   width?: number

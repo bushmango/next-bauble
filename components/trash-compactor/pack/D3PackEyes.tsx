@@ -9,7 +9,7 @@ import { Abstract, Published } from '../../shared/Abstract'
 import { ClientOnly } from '../../shared/ClientOnly'
 import { SeeLink } from '../../shared/SeeLink'
 import { globalMouseHandler } from '../lib/globalMouseHandler-sidecar'
-import { ZenLink } from '../../shared/ZenLink-sidecar'
+import { ZenLink } from '../../shared/ZenLink'
 
 const width = 500
 const height = 500

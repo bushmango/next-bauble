@@ -3,8 +3,8 @@ import { Layout } from '../../layout/Layout'
 import { Abstract, Published } from '../../shared/Abstract'
 import { ZenLink } from '../../shared/ZenLink'
 import * as clockUtil from './clockUtil'
-import { Graph } from './../graphs/Graph-sidecar'
-import { Translate } from './../graphs/Translate-sidecar'
+import { Graph } from './../graphs/Graph'
+import { Translate } from './../graphs/Translate'
 import { ScratchRadial } from './ScratchRadial'
 
 const subSecondTicks = 10
@@ -135,7 +135,6 @@ export const ScratchClockRadial = () => {
               ticksFunc={_ticksSecondsInMinute}
             />
           </Translate>
-          >
         </Graph>
       </div>
     </div>

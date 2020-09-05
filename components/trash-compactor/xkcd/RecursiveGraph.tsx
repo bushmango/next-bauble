@@ -1,13 +1,13 @@
 // import * as globalMouseHandler from 'modules/globalMouseHandler'
 import _ from 'lodash'
 import React from 'react'
-import { useIntervalForever } from '../../../lib/useIntervalForever-sidecar'
+import { useIntervalForever } from '../../../lib/useIntervalForever'
 import { Layout } from '../../layout/Layout'
 import { Abstract, Published } from '../../shared/Abstract'
 import { ClientOnly } from '../../shared/ClientOnly'
 import { SeeLink } from '../../shared/SeeLink'
 import { ZenLink } from '../../shared/ZenLink'
-import { RecursiveGraphGraph } from './RecursiveGraphGraph-sidecar'
+import { RecursiveGraphGraph } from './RecursiveGraphGraph'
 
 export const RecursiveGraphFull = () => {
   return (

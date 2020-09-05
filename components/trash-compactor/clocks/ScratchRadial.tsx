@@ -2,7 +2,7 @@ import * as d3 from 'd3'
 import l from 'lodash'
 import React from 'react'
 import { useAnimationForever } from '../../../lib/useAnimationForever'
-import { Translate } from './../graphs/Translate-sidecar'
+import { Translate } from './../graphs/Translate'
 
 interface ILabel {
   val: number

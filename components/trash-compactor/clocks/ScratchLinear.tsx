@@ -1,4 +1,4 @@
-import { Translate } from './../graphs/Translate-sidecar'
+import { Translate } from './../graphs/Translate'
 import React from 'react'
 import { useAnimationForever } from '../../../lib/useAnimationForever'
 import l from 'lodash'

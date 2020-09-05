@@ -1,9 +1,9 @@
 import { clockUtil } from './clockUtil-sidecar'
-import { Graph } from '../graphs/Graph-sidecar'
-import { ScratchLinear } from './ScratchLinear-sidecar'
+import { Graph } from '../graphs/Graph'
+import { ScratchLinear } from './ScratchLinear'
 import l from 'lodash'
-import { Layout } from '../../layout/Layout-sidecar'
-import { Abstract, Published } from '../../shared/Abstract-sidecar'
+import { Layout } from '../../layout/Layout'
+import { Abstract, Published } from '../../shared/Abstract'
 import { ZenLink } from '../../shared/ZenLink'
 
 const scratchWidth = 750

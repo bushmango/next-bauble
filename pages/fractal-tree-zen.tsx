@@ -1,8 +1,8 @@
 import { NextPage } from 'next'
 import * as React from 'react'
-import { ClientOnly } from '../components/shared/ClientOnly-sidecar'
-import { ScreenCenter } from '../components/shared/ScreenCenter-sidecar'
-import { FractalTree } from '../components/trash-compactor/fractal/FractalTree-sidecar'
+import { ClientOnly } from '../components/shared/ClientOnly'
+import { ScreenCenter } from '../components/shared/ScreenCenter'
+import { FractalTree } from '../components/trash-compactor/fractal/FractalTree'
 
 const Page: NextPage = () => {
   return (

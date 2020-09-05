@@ -2,10 +2,10 @@ import * as d3 from 'd3'
 import _ from 'lodash'
 import React from 'react'
 import Victor from 'victor'
-import { Layout } from '../../layout/Layout-sidecar'
-import { Abstract, Published } from '../../shared/Abstract-sidecar'
+import { Layout } from '../../layout/Layout'
+import { Abstract, Published } from '../../shared/Abstract'
 import { ClientOnly } from '../../shared/ClientOnly'
-import { ZenLink } from '../../shared/ZenLink-sidecar'
+import { ZenLink } from '../../shared/ZenLink'
 import { SeeLink } from '../../shared/SeeLink'
 
 export const FractalMonkeyFull = () => {

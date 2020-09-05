@@ -1,8 +1,7 @@
 import { NextPage } from 'next'
 import * as React from 'react'
 import { ClientOnly } from '../components/shared/ClientOnly'
-import { ScreenCenter } from '../components/shared/ScreenCenter'
-import { CatSprite } from '../components/trash-compactor/cat/CatSprite-sidecar'
+import { CatSprite } from '../components/trash-compactor/cat/CatSprite'
 
 const Page: NextPage = () => {
   return (

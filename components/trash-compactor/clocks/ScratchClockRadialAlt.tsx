@@ -3,12 +3,12 @@ import l from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { useAnimationForever } from '../../../lib/useAnimationForever'
-import { Layout } from '../../layout/Layout-sidecar'
-import { Abstract, Published } from '../../shared/Abstract-sidecar'
+import { Layout } from '../../layout/Layout'
+import { Abstract, Published } from '../../shared/Abstract'
 import { ZenLink } from '../../shared/ZenLink'
 import { clockUtil } from './clockUtil-sidecar'
 import { Graph } from './../graphs/Graph'
-import { Translate } from './../graphs/Translate-sidecar'
+import { Translate } from './../graphs/Translate'
 import { ScratchRadial } from './ScratchRadial'
 
 const scratchWidth = 750
@@ -226,7 +226,6 @@ export const ScratchClockRadialAlt = () => {
               </g>
             </g>
           </Translate>
-          >
         </Graph>
       </div>
     </div>
