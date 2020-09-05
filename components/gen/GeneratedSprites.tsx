@@ -9,7 +9,7 @@ import { SeeLink } from '../shared/SeeLink'
 
 export const GeneratedSpritesFull = () => {
   return (
-    <Layout title='Hex'>
+    <Layout title='Generated Sprites'>
       <Abstract>
         Generated Sprites - Click to generate more!
         <Published>9/5/2020</Published>
