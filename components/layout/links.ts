@@ -21,4 +21,5 @@ export const links = [
   ['/recursive-graph', 'Recursive Graph'],
   ['/cat-sprite', 'Cat Sprite'],
   ['/hex', 'Hex'],
+  ['/generated-sprites', 'Generated Sprites'],
 ]
