@@ -92,7 +92,7 @@ let seed = Date.now()
 let isDone = false
 let renderElapsed = 0
 let lastElapsed = 0
-
+let firstDelay = 1000
 const _onMouseDown = () => {
   reset()
 }
@@ -118,8 +118,15 @@ export const render = (
     lastElapsed = elapsedMs
     return
   }
+
   let elapsedDelta = elapsedMs - lastElapsed
   lastElapsed = elapsedMs
+
+  if (firstDelay > 0) {
+    firstDelay -= elapsedDelta
+    return
+  }
+
   renderElapsed += elapsedDelta
 
   let elapsedS = renderElapsed / 1000
