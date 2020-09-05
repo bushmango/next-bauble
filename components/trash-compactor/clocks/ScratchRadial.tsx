@@ -1,7 +1,7 @@
 import * as d3 from 'd3'
 import l from 'lodash'
 import React from 'react'
-import { useAnimationForever } from '../../../lib/useAnimationForever-sidecar'
+import { useAnimationForever } from '../../../lib/useAnimationForever'
 import { Translate } from './../graphs/Translate-sidecar'
 
 interface ILabel {

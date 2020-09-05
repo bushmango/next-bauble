@@ -2214,10 +2214,10 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-barrel-rider-sidecar@1.0.24:
-  version "1.0.24"
-  resolved "https://registry.yarnpkg.com/barrel-rider-sidecar/-/barrel-rider-sidecar-1.0.24.tgz#10b67bac12fd4e7c877b6824ebc88b2720fa197a"
-  integrity sha512-RsOKlujms46qomGSxNOdh63dWCFuK1Ztmup6LjaRxrO/GVNcs3v9pt74y1y6Z8Hs5XJgukbebUWo5P8/9WcQEA==
+barrel-rider-sidecar@1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/barrel-rider-sidecar/-/barrel-rider-sidecar-1.1.6.tgz#de4321d12b9010b2ab135983c611c3043223c711"
+  integrity sha512-C+Wk/Gu4X352RvcZ4Phm/5y/1U2x5TH6i2eun1Hqu63PCTImsp9OTyr9qeF7Lbta/RzReHTZF4LYWEAeY1D9cw==
   dependencies:
     "@types/express" "4.17.6"
     "@types/lodash" "4.14.150"

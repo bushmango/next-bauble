@@ -1,6 +1,6 @@
 import { Translate } from './../graphs/Translate-sidecar'
 import React from 'react'
-import { useAnimationForever } from '../../../lib/useAnimationForever-sidecar'
+import { useAnimationForever } from '../../../lib/useAnimationForever'
 import l from 'lodash'
 import * as d3 from 'd3'
 

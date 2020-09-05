@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { useAnimationForever } from '../../lib/useAnimationForever-sidecar'
+import { useAnimationForever } from '../../lib/useAnimationForever'
 import { Layout } from '../layout/Layout'
 import { Abstract, Published } from '../shared/Abstract'
 import { ClientOnly } from '../shared/ClientOnly'
 import { ZenLink } from '../shared/ZenLink'
-import {tinySprite} from'./tinySprite-sidecar'
+import { tinySprite } from './tinySprite-sidecar'
 
 export const GeneratedSpritesFull = () => {
   return (
@@ -75,6 +75,7 @@ function mod(n: number, m: number) {
   return ((n % m) + m) % m
 }
 
+let seed = Date.now()
 export const render = (
   canvas: HTMLCanvasElement,
   elapsedMs: number,
@@ -89,16 +90,19 @@ export const render = (
   let elapsedS = elapsedMs / 1000
   let turn = 2 * Math.PI
 
+  ctx.resetTransform()
+  ctx.scale(4, 4)
+
   ctx.fillStyle = 'white'
   ctx.clearRect(0, 0, w, h)
   ctx.fillRect(0, 0, w, h)
 
-  ctx.strokeStyle = 'green'
-  ctx.beginPath()
-  ctx.ellipse(mouseX, mouseY, 5, 5, 0, 0, turn)
-  ctx.closePath()
-  ctx.stroke()
+  // ctx.strokeStyle = 'green'
+  // ctx.beginPath()
+  // ctx.ellipse(mouseX, mouseY, 5, 5, 0, 0, turn)
+  // ctx.closePath()
+  // ctx.stroke()
 
-  tinySprite.tinySprite_render()
-
+  ctx.strokeStyle = 'black'
+  tinySprite.tinySprite_render(seed, ctx, 2, elapsedS * 10)
 }

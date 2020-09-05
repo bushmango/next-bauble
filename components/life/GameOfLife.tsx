@@ -1,6 +1,6 @@
 import * as l from 'lodash'
 import * as React from 'react'
-import { useAnimationForever } from '../../lib/useAnimationForever-sidecar'
+import { useAnimationForever } from '../../lib/useAnimationForever'
 import { Layout } from '../layout/Layout'
 import { Abstract, Published } from '../shared/Abstract'
 import { ClientOnly } from '../shared/ClientOnly'
