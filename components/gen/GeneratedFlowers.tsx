@@ -5,7 +5,6 @@ import { Abstract, Published } from '../shared/Abstract'
 import { ClientOnly } from '../shared/ClientOnly'
 import { SeeInternalLink, SeeLink } from '../shared/SeeLink'
 import { ZenLink } from '../shared/ZenLink'
-import { tinySprite } from './tinySprite-sidecar'
 import { tinyFlower } from './tinyFlower-sidecar'
 
 export const GeneratedFlowersFull = () => {
@@ -133,9 +132,10 @@ export const render = (
 
   let elapsedS = renderElapsed / 1000
   const maxProgress = 101
-  let progress = elapsedS * 30
+  let progress = elapsedS * 10
 
-  progress = maxProgress
+  // Auto complete
+  // progress = maxProgress
 
   let ctx = canvas.getContext('2d')
   if (!ctx) {

@@ -36,7 +36,7 @@ export function tinyFlower_render(
         idx = i + j * numWidth
         minorSeed = seed
 
-        let minPixels = 20
+        let minPixels = 15 + 30 + 30 // Shrub
         let additionalPixels = 20
         let numPixels = minPixels + Math.floor((R() / 255) * additionalPixels)
 
