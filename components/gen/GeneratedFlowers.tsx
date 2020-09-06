@@ -131,8 +131,10 @@ export const render = (
   renderElapsed += elapsedDelta
 
   let elapsedS = renderElapsed / 1000
-  const maxProgress = 101
+  const maxProgress = 300
   let progress = elapsedS * 10
+
+  let progress2 = (elapsedS - 1) * 10
 
   // Auto complete
   // progress = maxProgress
@@ -156,6 +158,7 @@ export const render = (
   // ctx.stroke()
 
   ctx.strokeStyle = 'black'
+  tinyFlower.tinyStem_render(seed, ctx, 2, progress2)
   tinyFlower.tinyFlower_render(seed, ctx, 2, progress)
 
   if (progress > maxProgress) {
