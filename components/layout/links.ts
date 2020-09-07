@@ -22,4 +22,5 @@ export const links = [
   ['/cat-sprite', 'Cat Sprite'],
   ['/hex', 'Hex'],
   ['/generated-sprites', 'Generated Sprites'],
+  ['/generated-flowers', 'Generated Flowers'],
 ]
