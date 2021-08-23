@@ -6,6 +6,7 @@ import { Abstract, Published } from '../shared/Abstract'
 import { ClientOnly } from '../shared/ClientOnly'
 import { SeeInternalLink, SeeLink } from '../shared/SeeLink'
 import { ZenLink } from '../shared/ZenLink'
+import chroma from 'chroma-js'
 
 export const GameOfLifeGenesFull = () => {
   return (
@@ -88,6 +89,7 @@ export const initBoard = (cellsWidth: number, cellsHeight: number) => {
     let c = getCell(i, j)
     if (c) {
       c.life = c.prevLife = 1
+      c.color = chroma.random().hex()
     }
   }
 }
@@ -122,49 +124,41 @@ export const onePass = (classic: boolean = false) => {
       if (c) {
         let n = countNeighbors(i, j, 0.5)
         c.n = n
-        if (classic) {
-          if (c.life > 0) {
-            if (n < 2) {
-              c.life -= classicStep
-            } else if (n > 3) {
-              c.life -= classicStep
-            } else {
-              c.life += classicStep
-            }
+
+        let lifeAdj = 0
+
+        if (c.life > 0.25) {
+          if (n < 2) {
+            lifeAdj = -step
+          } else if (n > 3) {
+            lifeAdj = -step
           } else {
-            if (n === 3) {
-              c.life += classicStep
-            } else {
-              c.life -= classicStep
-            }
+            lifeAdj = +step
           }
         } else {
-          // Stevie flow algo
-          let n = countNeighbors(i, j, 0.5)
-          c.n = n
-          if (c.life > 0.25) {
-            if (n < 2) {
-              c.life -= step
-            } else if (n > 3) {
-              c.life -= step
-            } else {
-              c.life += step
-            }
+          if (n === 3) {
+            lifeAdj = +step * 1
           } else {
-            if (n === 3) {
-              c.life += step * 1
-            } else {
-              c.life -= step
-            }
+            lifeAdj = -step
           }
         }
-        if (c.life < 0) {
+
+        if (c.life <= 0 && lifeAdj > 0) {
+          // A new cell appears!
+          let color = getAverageNeighborColor(i, j, 0.5)
+          c.color = color.hex() // chroma.random().hex()
+        }
+
+        c.life += lifeAdj
+        if (c.life <= 0) {
           c.life = 0
+          c.color = 'gray'
         }
         if (c.life > 1) {
           c.life = 1
         }
-        c.color = c.life > 0 ? 'green' : 'gray'
+
+        // c.color = c.life > 0 ? 'blue' : 'gray'
       }
     }
   }
@@ -197,7 +191,6 @@ export const countNeighbors = (i: number, j: number, limit: number) => {
   if (isAlive(i - 1, j + 1, limit)) {
     neighbors++
   }
-
   if (isAlive(i, j - 1, limit)) {
     neighbors++
   }
@@ -206,6 +199,50 @@ export const countNeighbors = (i: number, j: number, limit: number) => {
   }
 
   return neighbors
+}
+
+export const getAverageNeighborColor = (
+  i: number,
+  j: number,
+  limit: number,
+) => {
+  let neighbors = 0
+  let r = 0
+  let b = 0
+  let g = 0
+
+  let check = (oi: number, oj: number) => {
+    if (isAlive(i + oi, j + oj, limit)) {
+      neighbors++
+      let c = getCell(i + oi, j + oj)
+      if (c) {
+        let chrom = chroma(c.color)
+        let rgb = chrom.rgb(false)
+        r += rgb[0]
+        g += rgb[1]
+        b += rgb[2]
+      }
+    }
+  }
+
+  check(-1, -1)
+  check(0, -1)
+  check(1, -1)
+  check(-1, 0)
+  //check(0, 0)
+  check(1, 0)
+  check(-1, 1)
+  check(0, 1)
+  check(1, 1)
+
+  if (neighbors > 0) {
+    r /= neighbors
+    g /= neighbors
+    b /= neighbors
+  }
+
+  let finalColor = chroma(r, g, b)
+  return finalColor
 }
 
 const _global = global as any
