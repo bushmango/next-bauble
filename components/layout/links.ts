@@ -1,8 +1,9 @@
 export const links = [
   ['/', 'Home'],
   ['/rebreather', 'Rebreather'],
-  ['/game-of-life', 'Game of Life'],
   ['/game-of-life-classic', 'Game of Life Classic'],
+  ['/game-of-life', 'Game of Life Smooth'],
+  ['/game-of-life-genes', 'Game of Life Genes'],
   ['/geometry-of-circles', 'Geometry of Circles'],
   ['/scratch-clock-linear', 'Scratch Clock Linear'],
   ['/scratch-clock-radial', 'Scratch Clock Radial'],
