@@ -7,7 +7,7 @@
     "sidecar": "yarn barrel-rider-sidecar --remove --watch --src components lib",
     "css-watch": "yarn tsm  \"**/*.module.scss\" --ignore \"**/node_modules\" --watch",
     "css": "yarn tsm  \"**/*.module.scss\" --ignore \"**/node_modules\"",
-    "dev": "next",
+    "dev": "next -p 3080",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc"
