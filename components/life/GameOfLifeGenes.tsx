@@ -45,6 +45,8 @@ interface ICell {
   prevLife: number
   n: number
   color: string
+  generationsAlive: number
+  generationsAliveMax: number
 }
 let board = {
   cellsWidth: 0,
@@ -77,6 +79,8 @@ export const initBoard = (cellsWidth: number, cellsHeight: number) => {
         prevLife: 0,
         n: 0,
         color: 'black',
+        generationsAlive: 0,
+        generationsAliveMax: getRandomBetween(10, 1000),
       })
     }
   }
@@ -127,19 +131,24 @@ export const onePass = (classic: boolean = false) => {
 
         let lifeAdj = 0
 
+        if (c.life > 0 && c.generationsAlive > c.generationsAliveMax) {
+          lifeAdj += -step * 2
+        }
+
         if (c.life > 0.25) {
           if (n < 2) {
-            lifeAdj = -step
+            lifeAdj += -step
           } else if (n > 3) {
-            lifeAdj = -step
+            lifeAdj += -step
           } else {
-            lifeAdj = +step
+            lifeAdj += +step
           }
+          c.generationsAlive++
         } else {
           if (n === 3) {
-            lifeAdj = +step * 1
+            lifeAdj += +step * 1
           } else {
-            lifeAdj = -step
+            lifeAdj += -step
           }
         }
 
@@ -147,6 +156,7 @@ export const onePass = (classic: boolean = false) => {
           // A new cell appears!
           let color = getAverageNeighborColor(i, j, 0.5)
           c.color = color.hex() // chroma.random().hex()
+          c.generationsAlive = 0
         }
 
         c.life += lifeAdj
@@ -336,7 +346,6 @@ export const GameOfLifeGenes = (props: {
                 cx={sx + c.i * r * 2}
                 cy={sy + c.j * r * 2}
                 r={(r - 2) * c.life + 2}
-                stroke={c.life > 0.1 ? 'green' : 'gray'}
                 fill={c.color}
                 // onClick={() => {
                 //   c.life = 1
