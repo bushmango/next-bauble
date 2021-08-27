@@ -340,6 +340,7 @@ export const GameOfLifeGenes = (props: {
           onMouseMove={onMouseMove}
         >
           {l.map(board.cells, (c: ICell, cIdx: number) => {
+            if (c.life <= 0) return null
             return (
               <circle
                 key={cIdx}
