@@ -22,6 +22,13 @@ export function ticksHourInDay(numTicksHourInDay: number) {
   tick += Math.floor((moment().minute() / 60) * subHourTicks)
   return tick
 }
+export function ticksHourInHalfDay(numTicksHourInDay: number) {
+  let tick = 0
+  let subHourTicks = numTicksHourInDay / 12
+  tick = moment().hour() * subHourTicks
+  tick += Math.floor((moment().minute() / 60) * subHourTicks)
+  return tick
+}
 export function ticksMinutesInHour(numTicksMinutesInHour: number) {
   let tick = 0
   let subMinuteTicks = numTicksMinutesInHour / 60
