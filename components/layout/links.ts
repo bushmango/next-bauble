@@ -7,6 +7,7 @@ export const links = [
   ['/geometry-of-circles', 'Geometry of Circles'],
   ['/scratch-clock-linear', 'Scratch Clock Linear'],
   ['/scratch-clock-radial', 'Scratch Clock Radial'],
+  ['/penny-farthing-clock', 'Penny-Farthing Clock'],
   // ['/scratch-clock-radial-alt', 'Scratch Clock Radial (Alt)'],
   ['/fractal-tree', 'Fractal Tree'],
   ['/koch-snowflake-fractal-1', 'Koch Snowflake 1'],
