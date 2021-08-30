@@ -104,7 +104,7 @@ export const onePass = (classic: boolean = false) => {
   board.frameNum++
 
   let classicFrameCount = 32
-  let classicStep = (1 / classicFrameCount) * 1.5
+  // let classicStep = (1 / classicFrameCount) * 1.5
   let isFullStep = board.frameNum % classicFrameCount === 0
 
   for (let j = 0; j < board.cellsHeight; j++) {
@@ -153,9 +153,31 @@ export const onePass = (classic: boolean = false) => {
         }
 
         if (c.life <= 0 && lifeAdj > 0) {
+          const mixChance = 0.25
+          const mutationChance = 0.01
+
           // A new cell appears!
-          let color = getAverageNeighborColor(i, j, 0.5)
-          c.color = color.hex() // chroma.random().hex()
+
+          let ch = Math.random()
+          let parents = getRandomParents(i, j)
+          if (ch < mutationChance) {
+            c.color = chroma.random().hex()
+          } else if (ch < mixChance) {
+            if (parents.length < 2) {
+              throw new Error('not enough parents')
+            }
+            let newColor = chroma.mix(
+              chroma(parents[0].color),
+              chroma(parents[1].color),
+              Math.random(),
+            )
+            c.color = newColor.hex()
+          } else {
+            c.color = parents[0].color
+          }
+
+          // let color = getAverageNeighborColor(i, j, 0.5)
+          // c.color = color.hex() // chroma.random().hex()
           c.generationsAlive = 0
         }
 
@@ -209,6 +231,32 @@ export const countNeighbors = (i: number, j: number, limit: number) => {
   }
 
   return neighbors
+}
+
+export const getRandomParents = (i: number, j: number) => {
+  let possibleParents: ICell[] = []
+
+  let check = (oi: number, oj: number) => {
+    if (isAlive(i + oi, j + oj, 0.1)) {
+      let c = getCell(i + oi, j + oj)
+      if (c) {
+        possibleParents.push(c)
+      }
+    }
+  }
+
+  check(-1, -1)
+  check(0, -1)
+  check(1, -1)
+  check(-1, 0)
+
+  check(1, 0)
+  check(-1, 1)
+  check(0, 1)
+  check(1, 1)
+
+  possibleParents = l.shuffle(possibleParents)
+  return possibleParents
 }
 
 export const getAverageNeighborColor = (
