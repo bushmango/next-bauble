@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import * as React from 'react'
-import { links } from './links'
+import { categories, links } from './links'
 
 import css from './GridLinks.module.scss'
 import { navTo } from '../../lib/navTo'
@@ -44,7 +44,26 @@ export const ImageWithFallback = (props: {
 }
 
 export const GridLinks = () => {
-  let linksFiltered = _.filter(links, (c) => c[0] !== '/')
+  return (
+    <div>
+      {_.map(categories, (c) => {
+        return (
+          <div key={c[0]}>
+            <h3>{c[1]}</h3>
+
+            <GridLinksCategories category={c[0]} />
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+export const GridLinksCategories = (props: { category: string }) => {
+  let linksFiltered = _.filter(
+    links,
+    (c) => c[0] !== '/' && c[2].includes(props.category),
+  )
 
   return (
     <div className={css.grid}>
