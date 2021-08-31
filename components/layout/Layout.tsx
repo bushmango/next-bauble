@@ -32,7 +32,7 @@ export const Layout = (props: { children: React.ReactNode; title: string }) => {
 
       <footer>
         {/* <hr /> */}
-        <span>&copy; 2020 Stevie Bee &mdash; stevie@steviebee.org</span>
+        <span>&copy; 2020-2021 Stevie Bee &mdash; stevie@steviebee.org</span>
       </footer>
     </div>
   )
