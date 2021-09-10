@@ -37,10 +37,10 @@ export const TestSimplestPubSub = () => {
   //   }
   // })
 
-  pubSub.useSubscription(topicAdd, () => {
+  pubSub.useSubscribe(topicAdd, () => {
     setCount(count + 1)
   })
-  pubSub.useSubscription(topicSub, () => {
+  pubSub.useSubscribe(topicSub, () => {
     setCount(count - 1)
   })
 
@@ -65,10 +65,10 @@ export const TestSimplestPubSub = () => {
 export const TestSubscriber = () => {
   let [count, setCount] = React.useState(200)
 
-  pubSub.useSubscription(topicAdd, () => {
+  pubSub.useSubscribe(topicAdd, () => {
     setCount(count + 1)
   })
-  pubSub.useSubscription(topicSub, () => {
+  pubSub.useSubscribe(topicSub, () => {
     setCount(count - 1)
   })
 

@@ -34,7 +34,7 @@ export function report() {
   console.info(namespace, '------')
 }
 
-export function subscribe(
+export function _subscribe(
   topic: string,
   handler: () => void,
   maxSubscriptionsWarning = 5,
@@ -70,7 +70,7 @@ export function subscribe(
     )
   }
 }
-export function unsubscribe(topic: string, handler: () => void) {
+export function _unsubscribe(topic: string, handler: () => void) {
   if (!subs[topic]) {
     console.warn(
       namespace,
@@ -97,7 +97,6 @@ export function unsubscribe(topic: string, handler: () => void) {
       subs[topic].handlers.length + ' subscriptions',
     )
   }
-  subs[topic]
 }
 
 export function publish(topic: string) {
@@ -121,11 +120,11 @@ export function publish(topic: string) {
   })
 }
 
-export function useSubscription(topic: string, handler: () => void) {
+export function useSubscribe(topic: string, handler: () => void) {
   React.useEffect(() => {
-    subscribe(topic, handler)
+    _subscribe(topic, handler)
     return () => {
-      unsubscribe(topic, handler)
+      _unsubscribe(topic, handler)
     }
   })
 }
